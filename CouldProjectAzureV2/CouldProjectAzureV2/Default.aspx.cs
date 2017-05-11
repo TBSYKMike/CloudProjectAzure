@@ -11,10 +11,10 @@ namespace CouldProjectAzureV2
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            AzureTableConnector azureTableConnector = new AzureTableConnector();
-            azureTableConnector.RetriveDataFromSensors("people");
+            //AzureTableConnector azureTableConnector = new AzureTableConnector();
+            //azureTableConnector.RetriveDataFromSensors("people");
 
-
+      
         }
     }
 }
