@@ -24,6 +24,10 @@ namespace CouldProjectAzureV2
             addAcceleroMeterDataToGraph(ySerie);
             addAcceleroMeterDataToGraph(zSerie);
 
+            DataChart.Series[0].Color = System.Drawing.Color.Green;
+            DataChart.Series[1].Color = System.Drawing.Color.Black;
+            DataChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
+
             for (int i = 0; i < sensorData.Count(); i++)
             {
                 DataChart.Series[xSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerX, CultureInfo.InvariantCulture));
@@ -31,6 +35,7 @@ namespace CouldProjectAzureV2
                 DataChart.Series[zSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerZ, CultureInfo.InvariantCulture));
             }
         }
+       
 
         private void addAcceleroMeterDataToGraph(string serie)
         {

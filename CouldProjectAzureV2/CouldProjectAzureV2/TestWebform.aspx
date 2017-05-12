@@ -13,9 +13,16 @@
     <div>
     
         <asp:Chart ID="DataChart" runat="server" Height="530px" Width="956px">
-          
+           <Series>
+
+    </Series>
             <chartareas>
-                <asp:ChartArea Name="ChartArea1">
+                <asp:ChartArea Name="ChartArea1">                  
+    <AxisY Title="Sensor Values">
+    </AxisY>
+     <AxisX Title="Time">
+                <LabelStyle Angle="-90" Interval="1" />
+      </AxisX>
                 </asp:ChartArea>
             </chartareas>
         </asp:Chart>
