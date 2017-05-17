@@ -35,14 +35,14 @@ namespace CouldProjectAzureV2
 
                 foreach (Entity entity in table.ExecuteQuery(query))
                 {
-                 Debug.WriteLine(entity.PartitionKey);
+            /*     Debug.WriteLine(entity.PartitionKey);
                  Debug.WriteLine(entity.RowKey);
                  Debug.WriteLine(entity.SensorAccelerometerX);
                  Debug.WriteLine(entity.SensorAccelerometerY);
                  Debug.WriteLine(entity.SensorAccelerometerZ);
                  Debug.WriteLine(entity.SensorLight);
                  Debug.WriteLine(entity.SensorProximity);
-                 Debug.WriteLine("----------------------------------");
+                 Debug.WriteLine("----------------------------------");*/
                 
                  sensorDataEntityList.Add(entity);
 
