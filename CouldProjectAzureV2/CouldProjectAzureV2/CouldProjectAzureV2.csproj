@@ -110,6 +110,7 @@
       <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Speech" />
     <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -237,6 +238,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\CloudProjectAndroid - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\CouldProjectAzureV220170522075651 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

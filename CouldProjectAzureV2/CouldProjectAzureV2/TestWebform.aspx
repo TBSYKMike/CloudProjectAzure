@@ -8,11 +8,11 @@
 <head runat="server">
     <title></title>
 </head>
-<body>
+<body style="height: 787px; width: 1027px">
     <form id="form1" runat="server">
     <div>
     
-        <asp:Chart ID="DataChart" runat="server" Height="530px" Width="956px">
+        <asp:Chart ID="DataChart" runat="server" Height="347px" Width="625px">
            <Series>
 
     </Series>

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using CouldProjectAzureV2.Models;
+using System.Diagnostics;
 
 namespace CouldProjectAzureV2.Account
 {
@@ -38,7 +39,8 @@ namespace CouldProjectAzureV2.Account
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                        addCookieForAndroid("true");
+                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);                  
                         break;
                     case SignInStatus.LockedOut:
                         Response.Redirect("/Account/Lockout");
@@ -51,11 +53,22 @@ namespace CouldProjectAzureV2.Account
                         break;
                     case SignInStatus.Failure:
                     default:
+                        addCookieForAndroid("false");
                         FailureText.Text = "Invalid login attempt";
                         ErrorMessage.Visible = true;
                         break;
                 }
             }
         }
+
+        private void addCookieForAndroid(String cookieStatus)
+        {
+            HttpCookie loginCookie = new HttpCookie("loginSuccessCookie");
+            loginCookie.Values.Add(cookieStatus, "status");
+            loginCookie.Expires = DateTime.Now.AddHours(12);
+            Response.Cookies.Add(loginCookie);
+            Debug.WriteLine("Added cookie for Android");
+        }
+
     }
 }

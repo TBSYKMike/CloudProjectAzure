@@ -2,19 +2,24 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.DataVisualization.Charting;
-using System.Web.UI.WebControls;
 
 namespace CouldProjectAzureV2
 {
+    using System.Diagnostics;
+    using System.Speech.Recognition;
     public partial class TestWebform : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-             AzureTableConnector azureTableConnector = new AzureTableConnector();
-             List<Entity> sensorData = azureTableConnector.RetriveDataFromSensors("people");
+         
+        }
+
+
+        private void createGraph()
+        {
+            AzureTableConnector azureTableConnector = new AzureTableConnector();
+            List<Entity> sensorData = azureTableConnector.RetriveDataFromSensors("people");
 
             string xSerie = "x";
             string ySerie = "y";
@@ -38,7 +43,6 @@ namespace CouldProjectAzureV2
                 }
             }
         }
-       
 
         private void addAcceleroMeterDataToGraph(string serie)
         {
