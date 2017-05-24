@@ -39,7 +39,9 @@ namespace CouldProjectAzureV2.Account
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        addCookieForAndroid("true");
+                        // getAndStoreUserSettings(User.Identity.GetUserId());
+                        getAndStoreUserSettings("2");//För test  tillfälligt! Ändra till ovan senare
+                        addCookieForAndroid("true", "loginSuccessCookie");                  
                         IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);                  
                         break;
                     case SignInStatus.LockedOut:
@@ -53,7 +55,7 @@ namespace CouldProjectAzureV2.Account
                         break;
                     case SignInStatus.Failure:
                     default:
-                        addCookieForAndroid("false");
+                        addCookieForAndroid("false", "loginSuccessCookie");
                         FailureText.Text = "Invalid login attempt";
                         ErrorMessage.Visible = true;
                         break;
@@ -61,13 +63,24 @@ namespace CouldProjectAzureV2.Account
             }
         }
 
-        private void addCookieForAndroid(String cookieStatus)
+        private void addCookieForAndroid(String cookieStatus, String cookieName)
         {
-            HttpCookie loginCookie = new HttpCookie("loginSuccessCookie");
+            HttpCookie loginCookie = new HttpCookie(cookieName);
             loginCookie.Values.Add(cookieStatus, "status");
             loginCookie.Expires = DateTime.Now.AddHours(12);
             Response.Cookies.Add(loginCookie);
             Debug.WriteLine("Added cookie for Android");
+        }
+
+        private void getAndStoreUserSettings(String userId)
+        {
+            DatabaseConnector databaseConnector = new DatabaseConnector();
+            UserSettings userSettings = databaseConnector.getUserSettings(userId);
+            addCookieForAndroid(userSettings.getAcceleroMeterOnoff().ToString(), "AccelerometerOnoff");
+            addCookieForAndroid(userSettings.getLightOnOff().ToString(), "LightOnOff");
+            addCookieForAndroid(userSettings.getProximityOnoff().ToString(), "ProximityOnoff");
+            addCookieForAndroid(userSettings.getSamplingRate().ToString(), "SamplingRate");
+
         }
 
     }

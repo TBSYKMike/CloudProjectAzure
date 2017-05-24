@@ -96,5 +96,37 @@ namespace CouldProjectAzureV2
             }
         }
     }
+
+
 }
+
+/*
+    
+namespace CouldProjectAzureV2
+{
+    public class MyUser : IdentityUser
+        {
+            public virtual UserSensorSettings UserSensorSettings { get; set; }
+        }
+     
+        public class UserSensorSettings
+        {
+            public int userId { get; set; }
+            public int accelerometerOnOff { get; set; }
+            public int proximityOnOff { get; set; }
+            public int lightOnOff { get; set; }
+            public int samplingRate { get; set; }
+    }
+        public class MyDbContext : IdentityDbContext<MyUser>
+        {
+            public MyDbContext()
+                : base("DefaultConnection")
+            {
+            }
+            public System.Data.Entity.DbSet<UserSensorSettings> MyUserInfo { get; set; }
+         }
+
+    */
+    
+
 #endregion
