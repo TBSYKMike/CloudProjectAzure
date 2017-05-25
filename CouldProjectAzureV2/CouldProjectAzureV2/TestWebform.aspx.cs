@@ -13,14 +13,16 @@ namespace CouldProjectAzureV2
     using System.Diagnostics;
     using System.Speech.Recognition;
     using System.Web;
+    using System.Web.Security;
 
     public partial class TestWebform : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            DatabaseConnector db = new DatabaseConnector();
-            UserSettings userSettings = db.getUserSettings("2");
-            System.Diagnostics.Debug.Write("Look !!! för test " + userSettings.getAcceleroMeterOnoff());
+       //     DatabaseConnector db = new DatabaseConnector();
+         //   UserSettings userSettings = db.getUserSettings("2");
+           // Debug.Write("Look !!! för test " + userSettings.getAcceleroMeterOnoff());
+     
         }
 
 

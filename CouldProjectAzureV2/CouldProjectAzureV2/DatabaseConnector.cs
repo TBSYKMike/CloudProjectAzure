@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 
 namespace CouldProjectAzureV2
 {
@@ -48,6 +49,11 @@ namespace CouldProjectAzureV2
         public void setUserSettings(UserSettings userSettings)
         {
             executeSQLCommand("UPDATE UserSensorSettings SET userId = '" + userSettings.getUserId() + "', accelerometerOnOff = " + userSettings.getAcceleroMeterOnoff() + ", proximityOnOff = '" + userSettings.getProximityOnoff() + ", lightOnOff = " + userSettings.getLightOnOff() + ", samplingRate = " + userSettings.getSamplingRate());
+        }
+
+        public void setSettingForUser(String userId, String collumName, int value)
+        {
+            executeSQLCommand("UPDATE UserSensorSettings SET userId = '"+ userId+ "'," + collumName + "=" + value);
         }
 
     }

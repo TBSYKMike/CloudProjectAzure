@@ -36,3 +36,40 @@ input[type="select"] {
         padding: 0;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.round_corners {
+    border: 1px solid #A1DCF2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .round_corners td, .round_corners th {
+        border: 1px solid #99ccff;
+        font-family: Arial;
+        font-size: 11pt;
+        text-align: center;
+    }
+
+    .round_corners table table td {
+        border-style: none;
+    }
+
+    .round_corners .usersgridviewclass {
+        width: 100%;
+    }
