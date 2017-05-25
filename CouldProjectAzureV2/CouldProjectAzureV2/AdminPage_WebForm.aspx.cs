@@ -73,13 +73,13 @@ namespace CouldProjectAzureV2
             //var users = context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("rolename")).ToList();   Använd denna senare
             List<string> usersIdList = new List<string>();
 
-            for(int i = 0; i < users.Count; i++)
+            for (int i = 0; i < users.Count; i++)
             {
                 usersIdList.Add(users[i].Id);
             }
 
             ViewState["usersIdInTable"] = usersIdList;
- 
+
             for (int i = 0; i < users.Count; i++)
             {
                 DataRow dataRow = dataTable.NewRow();
@@ -103,12 +103,12 @@ namespace CouldProjectAzureV2
                 onButton.CssClass = "btn btn-deafult";
                 offButton.CssClass = "btn btn-danger";
             }
-         
+
         }
 
         public void acceleomneterCellClick(object sender, EventArgs e)
         {
-            if(!pageRefresh)
+            if (!pageRefresh)
                 updateSensorStatus(sender, "accelerometerOnOff");
         }
         public void proximityCellClick(object sender, EventArgs e)
@@ -129,73 +129,50 @@ namespace CouldProjectAzureV2
             row = (GridViewRow)button.NamingContainer;
 
             int index = row.RowIndex;
-            List<string> usersAsList = (List<string>)ViewState["usersIdInTable"];
+            List<string> usersIdAsList = (List<string>)ViewState["usersIdInTable"];
+
+            Button onButton = null;
+            Button offButton = null;
+
+            if (collumnName.Equals("accelerometerOnOff"))
+            {
+                onButton = (Button)UserGridView.Rows[index].FindControl("acceleroMeterOnButton");
+                offButton = (Button)UserGridView.Rows[index].FindControl("acceleroMeterOffButton");
+            }
+
+            else if (collumnName.Equals("proximityOnOff"))
+            {
+                onButton = (Button)UserGridView.Rows[index].FindControl("proximityOnButton");
+                offButton = (Button)UserGridView.Rows[index].FindControl("proximityOffButton");
+            }
+
+            else if (collumnName.Equals("lightOnOff"))
+            {
+                onButton = (Button)UserGridView.Rows[index].FindControl("lightOnButton");
+                offButton = (Button)UserGridView.Rows[index].FindControl("lightOffButton");
+            }
+
 
             if (button.Text.Equals("On"))
-            {            
-                databaseConnector.setSettingForUser(usersAsList[index], collumnName, 1);
+            {
+                changeButtonAppearance(true, onButton, offButton);
+                databaseConnector.setSettingForUser("2", collumnName, 1); //Ska vara usersIdAsList[index] istället för 2
+
             }
             else if (button.Text.Equals("Off"))
             {
-                databaseConnector.setSettingForUser(usersAsList[index], collumnName, 0);
+                changeButtonAppearance(false, onButton, offButton);
+                databaseConnector.setSettingForUser("2", collumnName, 0); //Ska vara usersIdAsList[index] istället för 2
             }
         }
 
 
-
-        private void turnOnOffSensor_Click(object sender, String buttonType)
+        private void changeSamplingFrequency_Click(object sender, String buttonType)
         {
-            //   if (!pageRefresh)
-          /*  {
-                System.Diagnostics.Debug.WriteLine("Delete product");
-                GridViewRow row = null;
-                if (buttonType == "button")
-                {
-                    Button button = (Button)sender;
-                    row = (GridViewRow)button.NamingContainer;
-                    
 
-                    TableCell cell = null;
-                    Control parent = button;
-                    while ((parent = parent.Parent) != null && cell == null)
-                        cell = parent as TableCell;
-                    int indexOfTextBoxCell = -1;
-                    if (cell != null)
-                        indexOfTextBoxCell = sender.Cells.GetCellIndex(cell);
 
-                    if (button.Text.Equals("On"))
-                    {
-                        int index = row.RowIndex;
-                        string userId = usersAsList[index].Id;
-                        UserGridView.Rows[0].Cells[i].Text
-                        databaseConnector.setUserSettings(userId,);
-                    }
-                    else if (button.Text.Equals("Off"))
-                    {
-
-                    }
-                    */
-                }
-                /*else if (buttonType == "linkButton")
-                {
-                    LinkButton button = (LinkButton)sender;
-                    row = (GridViewRow)button.NamingContainer;
-                }
-                else if (buttonType == "textBox")
-                {
-                    TextBox button = (TextBox)sender;
-                    row = (GridViewRow)button.NamingContainer;
-                }
-
-                if (row != null)
-                {
-                    int index = row.RowIndex;
-
-                }*/
-
-                // }
-            }
         }
-
+    }
+    }
 
         
