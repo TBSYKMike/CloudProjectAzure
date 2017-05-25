@@ -92,6 +92,72 @@ namespace CouldProjectAzureV2
 
         }
 
+        private void initializeButtonColors() 
+        {
+            List<string> usersIdAsList = (List<string>)ViewState["usersIdInTable"];
+            for (int i = 0; i < usersIdAsList.Count; i++)
+            {
+                UserSettings userSettings = databaseConnector.getUserSettings(usersIdAsList[i]);
+
+                Button acceleroMeterOnButton = (Button)UserGridView.Rows[i].FindControl("acceleroMeterOnButton");
+                Button acceleroMeterOffButton = (Button)UserGridView.Rows[i].FindControl("acceleroMeterOffButton");
+                Button proximityOnButton = (Button)UserGridView.Rows[i].FindControl("proximityOnButton");
+                Button proximityOffButton = (Button)UserGridView.Rows[i].FindControl("proximityOffButton");
+                Button lightOnButton = (Button)UserGridView.Rows[i].FindControl("lightOnButton");
+                Button lightOffButton = (Button)UserGridView.Rows[i].FindControl("lightOffButton");
+                Button samplingRateSlowButton = (Button)UserGridView.Rows[i].FindControl("samplingRateSlowButton");
+                Button samplingRateMediumButton = (Button)UserGridView.Rows[i].FindControl("samplingRateMediumButton");
+                Button samplingRateFastButton = (Button)UserGridView.Rows[i].FindControl("samplingRateFastButton");
+
+
+                if (userSettings.getAcceleroMeterOnoff().Equals(0))
+                {
+                    changeButtonAppearanceOnOff(true, acceleroMeterOnButton, acceleroMeterOffButton);
+                }
+                else
+                {
+                    changeButtonAppearanceOnOff(false, acceleroMeterOnButton, acceleroMeterOffButton);
+                }
+
+                if (userSettings.getProximityOnoff().Equals(0))
+                {
+                    changeButtonAppearanceOnOff(true, proximityOnButton, proximityOffButton);
+                }
+                else
+                {
+                    changeButtonAppearanceOnOff(false, proximityOnButton, proximityOffButton);
+                }
+
+                if (userSettings.getLightOnOff().Equals(0))
+                {
+                    changeButtonAppearanceOnOff(true, lightOnButton, lightOffButton);
+                }
+                else
+                {
+                    changeButtonAppearanceOnOff(false, lightOnButton, lightOffButton);
+                }
+
+                if (userSettings.getSamplingRate().Equals(1))
+                {
+                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "1");
+                }
+                else if (userSettings.getSamplingRate().Equals(2))
+                {
+                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "2");
+                }
+                else if (userSettings.getSamplingRate().Equals(3))
+                {
+                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "3");
+                }
+            }             
+
+
+        }
+
+
+        private void checkUserSettingList() { 
+}
+
         private void changeButtonAppearanceOnOff(Boolean on, Button onButton, Button offButton)
         {
             if (on)
