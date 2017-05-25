@@ -23,7 +23,7 @@
                         <asp:TemplateField HeaderText="Accelerometer on/off">
                             <ItemTemplate>
                                 <asp:Button ID="acceleroMeterOnButton" runat="server" CssClass="btn btn-success" Text="On"  OnClick="acceleomneterCellClick" />
-                                <asp:Button ID="acceleroMeterOffButton" runat="server" CssClass="btn btn-" Text="Off"  OnClick="acceleomneterCellClick" />
+                                <asp:Button ID="acceleroMeterOffButton" runat="server" CssClass="btn btn-default" Text="Off"  OnClick="acceleomneterCellClick" />
 
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -31,7 +31,7 @@
                         <asp:TemplateField HeaderText="Proximity on/off">
                             <ItemTemplate>
                                 <asp:Button ID="proximityOnButton" runat="server" CssClass="btn btn-success" Text="On" OnClick="proximityCellClick"/>
-                                <asp:Button ID="proximityOffButton" runat="server" CssClass="btn btn-" Text="Off" OnClick="proximityCellClick"/>
+                                <asp:Button ID="proximityOffButton" runat="server" CssClass="btn btn-default" Text="Off" OnClick="proximityCellClick"/>
                             </ItemTemplate>
                         </asp:TemplateField>
 
@@ -39,14 +39,16 @@
 
                         <asp:TemplateField HeaderText="Light on/off">
                             <ItemTemplate>
-                                <asp:Button ID="lightOnButton" runat="server" CssClass="btn btn-success" Text="On" OnClick="lightCellClick"/>
-                                <asp:Button ID="lightOffButton" runat="server" CssClass="btn btn-" Text="Off" OnClick="lightCellClick"/>
+                                    <asp:Button ID="lightOnButton" runat="server" CssClass="btn btn-success" Text="On" OnClick="lightCellClick"/>
+                                <asp:Button ID="lightOffButton" runat="server" CssClass="btn btn-default" Text="Off" OnClick="lightCellClick"/>
                             </ItemTemplate>
                         </asp:TemplateField>
 
                            <asp:TemplateField HeaderText="Sampling frequency">
                             <ItemTemplate>
-                                knappar här
+                                <asp:Button ID="samplingRateSlowButton" runat="server" CssClass="btn btn-default" Text="Slow" OnClick="changeSamplingFrequencyClick"/>
+                                <asp:Button ID="samplingRateMediumButton" runat="server" CssClass="btn btn-default" Text="Medium" OnClick="changeSamplingFrequencyClick"/>
+                                <asp:Button ID="samplingRateFastButton" runat="server" CssClass="btn btn-default" Text="Fast" OnClick="changeSamplingFrequencyClick"/>
                             </ItemTemplate>
                         </asp:TemplateField>
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -91,7 +92,7 @@ namespace CouldProjectAzureV2
 
         }
 
-        private void changeButtonAppearance(Boolean on, Button onButton, Button offButton)
+        private void changeButtonAppearanceOnOff(Boolean on, Button onButton, Button offButton)
         {
             if (on)
             {
@@ -104,6 +105,27 @@ namespace CouldProjectAzureV2
                 offButton.CssClass = "btn btn-danger";
             }
 
+        }
+        private void changeButtonAppereanceSensor(Button slow, Button medium, Button fast, String state)
+        {
+            if (state.Equals("Slow"))
+            {
+                slow.CssClass = "btn btn-success";
+                medium.CssClass = "btn btn-default";
+                fast.CssClass = "btn btn-default";
+            }
+            else if(state.Equals("Medium"))
+            {
+                medium.CssClass = "btn btn-success";
+                slow.CssClass = "btn btn-default";
+                fast.CssClass = "btn btn-default";
+            }
+            else
+            {
+                fast.CssClass = "btn btn-success";
+                slow.CssClass = "btn btn-default";
+                medium.CssClass = "btn btn-default";
+            }
         }
 
         public void acceleomneterCellClick(object sender, EventArgs e)
@@ -155,22 +177,52 @@ namespace CouldProjectAzureV2
 
             if (button.Text.Equals("On"))
             {
-                changeButtonAppearance(true, onButton, offButton);
+                changeButtonAppearanceOnOff(true, onButton, offButton);
                 databaseConnector.setSettingForUser("2", collumnName, 1); //Ska vara usersIdAsList[index] istället för 2
 
             }
             else if (button.Text.Equals("Off"))
             {
-                changeButtonAppearance(false, onButton, offButton);
+                changeButtonAppearanceOnOff(false, onButton, offButton);
                 databaseConnector.setSettingForUser("2", collumnName, 0); //Ska vara usersIdAsList[index] istället för 2
             }
         }
 
 
-        private void changeSamplingFrequency_Click(object sender, String buttonType)
+        public void changeSamplingFrequencyClick(object sender, EventArgs e)
         {
+            Debug.Write("changeSamplingFrequency_Click");
+            if (!pageRefresh)
+                changeSamplingFrequency(sender, "samplingRate");
+        }
+
+        private void changeSamplingFrequency(object sender, String collumName)
+        {
+            GridViewRow row = null;
+            Button button = (Button)sender;
+            row = (GridViewRow)button.NamingContainer;
+            int index = row.RowIndex;
+
+            Button slowButton = (Button)UserGridView.Rows[index].FindControl("samplingRateSlowButton");
+            Button mediumButton = (Button)UserGridView.Rows[index].FindControl("samplingRateMediumButton");
+            Button fastButton = (Button)UserGridView.Rows[index].FindControl("samplingRateFastButton");
 
 
+            if (button.Text.Equals("Slow"))
+            {
+                changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Slow");
+                databaseConnector.setSettingForUser("2", collumName, 1); //Ska vara usersIdAsList[index] istället för 2
+            }
+            else if (button.Text.Equals("Medium"))
+            {
+                changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Medium");
+                databaseConnector.setSettingForUser("2", collumName, 2); //Ska vara usersIdAsList[index] istället för 2
+            }
+            else
+            {
+                changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Fast");
+                databaseConnector.setSettingForUser("2", collumName, 3); //Ska vara usersIdAsList[index] istället för 2
+            }
         }
     }
     }
