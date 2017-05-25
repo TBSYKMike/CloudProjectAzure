@@ -53,7 +53,7 @@ namespace CouldProjectAzureV2
 
         public void setSettingForUser(String userId, String collumName, int value)
         {
-            executeSQLCommand("UPDATE UserSensorSettings SET " + collumName + "=" + value + " WHERE userId = " + value);
+            executeSQLCommand("UPDATE UserSensorSettings SET " + collumName + "=" + value + " WHERE userId = " + userId);
         }
 
     }
