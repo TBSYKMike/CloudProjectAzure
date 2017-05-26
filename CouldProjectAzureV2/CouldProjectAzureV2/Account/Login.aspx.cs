@@ -39,8 +39,8 @@ namespace CouldProjectAzureV2.Account
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        // getAndStoreUserSettings(User.Identity.GetUserId());
-                        getAndStoreUserSettings("2");//För test  tillfälligt! Ändra till ovan senare
+                        string userId = signinManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();                
+                        getAndStoreUserSettings(userId);
                         addCookieForAndroid("true", "loginSuccessCookie");                  
                         IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);                  
                         break;

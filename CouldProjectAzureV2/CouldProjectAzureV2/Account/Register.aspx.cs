@@ -6,6 +6,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using CouldProjectAzureV2.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Diagnostics;
 
 namespace CouldProjectAzureV2.Account
 {
@@ -26,6 +28,7 @@ namespace CouldProjectAzureV2.Account
 
                 signInManager.SignIn( user, isPersistent: false, rememberBrowser: false);
                 initilizeUserSensorSettings(user.Id);
+                giveRoleToUser(user, "patient");
                 IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
             }
             else 
@@ -41,6 +44,31 @@ namespace CouldProjectAzureV2.Account
             databaseConnector.setUserSettings(userSettings);
         }
 
-        
+        private void giveRoleToUser(ApplicationUser theuser, string therole)
+        {
+            ApplicationDbContext dbContext = new ApplicationDbContext();
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            manager.AddToRole(theuser.Id, therole);
+            dbContext.SaveChanges();
+        }
+
+        //Temporärt
+        /*private void createRole(string rolename)
+        {
+            ApplicationDbContext dbcontext = new ApplicationDbContext();
+            var role = new RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(new Microsoft.AspNet.Identity.EntityFramework.RoleStore<IdentityRole>(dbcontext));
+            var roleresult = role.Create(new IdentityRole(rolename));
+            if (roleresult.Succeeded)
+            {
+
+            }
+
+            else
+            {
+                Debug.WriteLine("cant create user");
+            }
+        }*/
+
+
     }
 }
