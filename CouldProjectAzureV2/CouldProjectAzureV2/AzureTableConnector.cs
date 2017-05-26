@@ -17,7 +17,7 @@ namespace CouldProjectAzureV2
 {
     public class AzureTableConnector
     {
-        public List<Entity> RetriveDataFromSensors(String tableName, String calenderDate)
+        public List<Entity> RetriveDataFromSensors(String tableName, String calenderDate, String username)
         {
             List<Entity> sensorDataEntityList = new List<Entity>();
             try
@@ -46,19 +46,15 @@ namespace CouldProjectAzureV2
                      */
 
                     string[] values = entity.RowKey.Split(';');
-                    string userName = values[0];
+                    string userNameAzure = values[0];
                     string date = values[1];
 
 
-                    if (calenderDate.Equals(date))
+                    if (calenderDate.Equals(date) && username.Equals(userNameAzure))
                     {
                         sensorDataEntityList.Add(entity);
-                    }
-
-
-               
+                    }           
                  
-
                 }
 
             }

@@ -22,10 +22,7 @@ namespace CouldProjectAzureV2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //createLightOrProximityGraph("LightChart");
-            //createLightOrProximityGraph("ProximityChart");
-            // createLightOrProximityGraph("BatteryChart");           
-            //createAcceleroMeterGraph();
+  
 
             if (!IsPostBack)
             {
@@ -127,8 +124,12 @@ namespace CouldProjectAzureV2
 
         protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
         {
-            string date = CalendarOne.SelectedDate.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
-            sensorData = azureTableConnector.RetriveDataFromSensors("people", date);
+            string date = CalendarOne.SelectedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            sensorData = azureTableConnector.RetriveDataFromSensors("people", date, "Pick@stick.se1");//Ändra från hårdkodat
+            //createLightOrProximityGraph("LightChart");
+            //createLightOrProximityGraph("ProximityChart");
+            // createLightOrProximityGraph("BatteryChart");           
+            createAcceleroMeterGraph();
         }
 
 
