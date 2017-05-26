@@ -132,7 +132,7 @@ namespace CouldProjectAzureV2
 
         protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
         {
-
+            string date = CalendarOne.SelectedDate.ToShortDateString();
         }
 
 
