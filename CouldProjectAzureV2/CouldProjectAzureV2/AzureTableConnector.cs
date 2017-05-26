@@ -17,7 +17,7 @@ namespace CouldProjectAzureV2
 {
     public class AzureTableConnector
     {
-        public List<Entity> RetriveDataFromSensors(String tableName)
+        public List<Entity> RetriveDataFromSensors(String tableName, String calenderDate)
         {
             List<Entity> sensorDataEntityList = new List<Entity>();
             try
@@ -35,16 +35,29 @@ namespace CouldProjectAzureV2
 
                 foreach (Entity entity in table.ExecuteQuery(query))
                 {
-               /*  Debug.WriteLine(entity.PartitionKey);
-                 Debug.WriteLine(entity.RowKey);
-                 Debug.WriteLine(entity.SensorAccelerometerX);
-                 Debug.WriteLine(entity.SensorAccelerometerY);
-                 Debug.WriteLine(entity.SensorAccelerometerZ);
-                 Debug.WriteLine(entity.SensorLight);
-                 Debug.WriteLine(entity.SensorProximity);
-                 Debug.WriteLine("----------------------------------");
-                */
-                 sensorDataEntityList.Add(entity);
+                    /*  Debug.WriteLine(entity.PartitionKey);
+                      Debug.WriteLine(entity.RowKey);
+                      Debug.WriteLine(entity.SensorAccelerometerX);
+                      Debug.WriteLine(entity.SensorAccelerometerY);
+                      Debug.WriteLine(entity.SensorAccelerometerZ);
+                      Debug.WriteLine(entity.SensorLight);
+                      Debug.WriteLine(entity.SensorProximity);
+                      Debug.WriteLine("----------------------------------");
+                     */
+
+                    string[] values = entity.RowKey.Split(';');
+                    string userName = values[0];
+                    string date = values[1];
+
+
+                    if (calenderDate.Equals(date))
+                    {
+                        sensorDataEntityList.Add(entity);
+                    }
+
+
+               
+                 
 
                 }
 
@@ -57,6 +70,8 @@ namespace CouldProjectAzureV2
             }
             return sensorDataEntityList;
         }
-        }
+
+
+    }
  
 }

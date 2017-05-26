@@ -17,17 +17,15 @@ namespace CouldProjectAzureV2
 
     public partial class Chart_Webform : System.Web.UI.Page
     {
-        AzureTableConnector azureTableConnector = new AzureTableConnector();
-        List<Entity> sensorData;
+        private AzureTableConnector azureTableConnector = new AzureTableConnector();
+        private List<Entity> sensorData;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            sensorData = azureTableConnector.RetriveDataFromSensors("people");
-           // createLightOrProximityGraph("LightChart");
+            //createLightOrProximityGraph("LightChart");
             //createLightOrProximityGraph("ProximityChart");
-           // createLightOrProximityGraph("BatteryChart");           
-           // createAcceleroMeterGraph();
-
+            // createLightOrProximityGraph("BatteryChart");           
+            //createAcceleroMeterGraph();
 
             if (!IsPostBack)
             {
@@ -102,7 +100,7 @@ namespace CouldProjectAzureV2
             AcclerometerChart.Series[0].Color = System.Drawing.Color.Green;
             AcclerometerChart.Series[1].Color = System.Drawing.Color.Black;
             AcclerometerChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
-
+            
             for (int i = 0; i < sensorData.Count(); i++)
             {
                 if (sensorData[i].SensorAccelerometerX != null && sensorData[i].SensorAccelerometerY != null && sensorData[i].SensorAccelerometerZ != null)
@@ -121,19 +119,19 @@ namespace CouldProjectAzureV2
             // DataChart.Series[xSeries].BorderWidth = 2;      
         }
 
-        private void splitRowKey(string valueToSplit)
+        private void getDataOnChoosenTime()
         {
-            string[] values = valueToSplit.Split(',');
-            string userName = values[0];
-            string nanoTime = values[1];
-
+      
 
         }
 
         protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
         {
-            string date = CalendarOne.SelectedDate.ToShortDateString();
+            string date = CalendarOne.SelectedDate.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+            sensorData = azureTableConnector.RetriveDataFromSensors("people", date);
         }
+
+
 
 
 
