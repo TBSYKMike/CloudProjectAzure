@@ -47,10 +47,10 @@ namespace CouldProjectAzureV2
 
                     string[] values = entity.RowKey.Split(';');
                     string userNameAzure = values[0];
-                    string date = values[1];
+                    string fullDate = values[1];
 
 
-                    if (calenderDate.Equals(date) && username.Equals(userNameAzure))
+                    if (fullDate.StartsWith(calenderDate) && username.Equals(userNameAzure))
                     {
                         sensorDataEntityList.Add(entity);
                     }           
