@@ -130,14 +130,10 @@ namespace CouldProjectAzureV2
 
         }
 
+        protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
+        {
 
-
-
-        
-
-
-
-
+        }
 
 
 
@@ -155,12 +151,21 @@ namespace CouldProjectAzureV2
 
 
 
-     //      var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            //     var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
+
+
+
+
+
+
+
+
+
+        //      var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //     var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
         //    var result = manager.GetEmailAsync("8cc2231a-ecf5-4c95-9b62-ca6610d5c3a7");
-       //     var user = manager.FindById("8cc2231a-ecf5-4c95-9b62-ca6610d5c3a7");
-         //   Debug.WriteLine("Look at the result:   " + user.ToString());
-        
+        //     var user = manager.FindById("8cc2231a-ecf5-4c95-9b62-ca6610d5c3a7");
+        //   Debug.WriteLine("Look at the result:   " + user.ToString());
+
 
         // var manager = new UserManager<MyUser>(new UserStore<MyUser>(new MyDbContext()));
 

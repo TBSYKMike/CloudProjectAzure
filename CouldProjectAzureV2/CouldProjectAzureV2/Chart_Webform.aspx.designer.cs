@@ -13,6 +13,24 @@ namespace CouldProjectAzureV2 {
     public partial class Chart_Webform {
         
         /// <summary>
+        /// UserList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList UserList;
+        
+        /// <summary>
+        /// CalendarOne control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar CalendarOne;
+        
+        /// <summary>
         /// AcclerometerChart control.
         /// </summary>
         /// <remarks>
@@ -47,14 +65,5 @@ namespace CouldProjectAzureV2 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.DataVisualization.Charting.Chart BatteryChart;
-        
-        /// <summary>
-        /// UserList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList UserList;
     }
 }
