@@ -23,7 +23,7 @@ namespace CouldProjectAzureV2.Account
                 RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
             }
         }
-
+        
         protected void LogIn(object sender, EventArgs e)
         {
             if (IsValid)

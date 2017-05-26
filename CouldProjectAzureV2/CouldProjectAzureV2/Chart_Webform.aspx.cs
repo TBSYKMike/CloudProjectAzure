@@ -17,17 +17,41 @@ namespace CouldProjectAzureV2
 
     public partial class Chart_Webform : System.Web.UI.Page
     {
+        AzureTableConnector azureTableConnector = new AzureTableConnector();
+        List<Entity> sensorData;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            createLightOrProximityGraph("LightChart");
-            createLightOrProximityGraph("ProximityChart");
-            createAcceleroMeterGraph();
+            sensorData = azureTableConnector.RetriveDataFromSensors("people");
+           // createLightOrProximityGraph("LightChart");
+            //createLightOrProximityGraph("ProximityChart");
+           // createLightOrProximityGraph("BatteryChart");           
+           // createAcceleroMeterGraph();
+
+
+            if (!IsPostBack)
+            {
+                populateUserDropDownList();
+            }
+        }
+
+        private void populateUserDropDownList()
+        {
+            var context = new IdentityDbContext();
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new IdentityDbContext()));
+            var users = rm.FindByName("patient").Users.Select(x => x.UserId);
+            var usersInRole = context.Users.Where(u => users.Contains(u.Id)).ToList();
+
+            for (int i = 0; i < usersInRole.Count; i++)
+            {
+                Debug.WriteLine("patient: " + usersInRole[i].UserName);
+                UserList.Items.Add(usersInRole[i].UserName);
+            }
         }
 
         private void createLightOrProximityGraph(string chartType)
         {
-            AzureTableConnector azureTableConnector = new AzureTableConnector();
-            List<Entity> sensorData = azureTableConnector.RetriveDataFromSensors("people");
+            
             string serie = "";
             if (chartType.Equals("LightChart"))
             {
@@ -41,6 +65,12 @@ namespace CouldProjectAzureV2
                 ProximityChart.Series.Add(serie);
                 ProximityChart.Series[serie].ChartType = SeriesChartType.FastLine;
             }
+            else if (chartType.Equals("BatteryChart"))
+            {
+                serie = "batterySensor";
+                BatteryChart.Series.Add(serie);
+                BatteryChart.Series[serie].ChartType = SeriesChartType.FastLine;
+            }
 
             for (int i = 0; i < sensorData.Count(); i++)
             {
@@ -52,15 +82,15 @@ namespace CouldProjectAzureV2
                 {
                     ProximityChart.Series[serie].Points.Add(double.Parse(sensorData[i].SensorProximity, CultureInfo.InvariantCulture));
                 }
+                else if (sensorData[i].BatteryLevel != null && chartType.Equals("BatteryChart"))
+                {
+                    BatteryChart.Series[serie].Points.Add(double.Parse(sensorData[i].BatteryLevel, CultureInfo.InvariantCulture));
+                }
             }
-
         }
 
         private void createAcceleroMeterGraph()
         {
-            AzureTableConnector azureTableConnector = new AzureTableConnector();
-            List<Entity> sensorData = azureTableConnector.RetriveDataFromSensors("people");
-
             string xSerie = "x";
             string ySerie = "y";
             string zSerie = "z";
@@ -89,6 +119,15 @@ namespace CouldProjectAzureV2
             AcclerometerChart.Series.Add(serie);
             AcclerometerChart.Series[serie].ChartType = SeriesChartType.FastLine;
             // DataChart.Series[xSeries].BorderWidth = 2;      
+        }
+
+        private void splitRowKey(string valueToSplit)
+        {
+            string[] values = valueToSplit.Split(',');
+            string userName = values[0];
+            string nanoTime = values[1];
+
+
         }
 
 

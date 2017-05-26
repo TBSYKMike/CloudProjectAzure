@@ -14,11 +14,13 @@ namespace CouldProjectAzureV2
             { }
 
             public Entity() { }
-
+                       
             public string SensorAccelerometerX { get; set; }
             public string SensorAccelerometerY { get; set; }
             public string SensorAccelerometerZ { get; set; }
             public string SensorLight { get; set; }
             public string SensorProximity { get; set; }
-        }
+            public string METAData { get; set; }
+            public string BatteryLevel { get; set; }
+    }
     }
