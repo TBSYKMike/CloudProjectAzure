@@ -15,18 +15,48 @@ namespace CouldProjectAzureV2
     using System.Web;
     using System.Web.Security;
 
-    public partial class TestWebform : System.Web.UI.Page
+    public partial class Chart_Webform : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-       //     DatabaseConnector db = new DatabaseConnector();
-         //   UserSettings userSettings = db.getUserSettings("2");
-           // Debug.Write("Look !!! för test " + userSettings.getAcceleroMeterOnoff());
-     
+            createLightOrProximityGraph("LightChart");
+            createLightOrProximityGraph("ProximityChart");
+            createAcceleroMeterGraph();
         }
 
+        private void createLightOrProximityGraph(string chartType)
+        {
+            AzureTableConnector azureTableConnector = new AzureTableConnector();
+            List<Entity> sensorData = azureTableConnector.RetriveDataFromSensors("people");
+            string serie = "";
+            if (chartType.Equals("LightChart"))
+            {
+                serie = "lightSensor";
+                LightChart.Series.Add(serie);
+                LightChart.Series[serie].ChartType = SeriesChartType.FastLine;
+            }
+            else if (chartType.Equals("ProximityChart"))
+            {
+                serie = "proximitySensor";
+                ProximityChart.Series.Add(serie);
+                ProximityChart.Series[serie].ChartType = SeriesChartType.FastLine;
+            }
 
-        private void createGraph()
+            for (int i = 0; i < sensorData.Count(); i++)
+            {
+                if (sensorData[i].SensorLight != null && chartType.Equals("LightChart"))
+                {
+                    LightChart.Series[serie].Points.Add(double.Parse(sensorData[i].SensorLight, CultureInfo.InvariantCulture));
+                }
+                else if (sensorData[i].SensorProximity != null && chartType.Equals("ProximityChart"))
+                {
+                    ProximityChart.Series[serie].Points.Add(double.Parse(sensorData[i].SensorProximity, CultureInfo.InvariantCulture));
+                }
+            }
+
+        }
+
+        private void createAcceleroMeterGraph()
         {
             AzureTableConnector azureTableConnector = new AzureTableConnector();
             List<Entity> sensorData = azureTableConnector.RetriveDataFromSensors("people");
@@ -39,29 +69,53 @@ namespace CouldProjectAzureV2
             addAcceleroMeterDataToGraph(ySerie);
             addAcceleroMeterDataToGraph(zSerie);
 
-            DataChart.Series[0].Color = System.Drawing.Color.Green;
-            DataChart.Series[1].Color = System.Drawing.Color.Black;
-            DataChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
+            AcclerometerChart.Series[0].Color = System.Drawing.Color.Green;
+            AcclerometerChart.Series[1].Color = System.Drawing.Color.Black;
+            AcclerometerChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
 
             for (int i = 0; i < sensorData.Count(); i++)
             {
                 if (sensorData[i].SensorAccelerometerX != null && sensorData[i].SensorAccelerometerY != null && sensorData[i].SensorAccelerometerZ != null)
                 {
-                    DataChart.Series[xSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerX, CultureInfo.InvariantCulture));
-                    DataChart.Series[ySerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerY, CultureInfo.InvariantCulture));
-                    DataChart.Series[zSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerZ, CultureInfo.InvariantCulture));
+                    AcclerometerChart.Series[xSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerX, CultureInfo.InvariantCulture));
+                    AcclerometerChart.Series[ySerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerY, CultureInfo.InvariantCulture));
+                    AcclerometerChart.Series[zSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerZ, CultureInfo.InvariantCulture));
                 }
             }
         }
 
         private void addAcceleroMeterDataToGraph(string serie)
         {
-            DataChart.Series.Add(serie);
-            DataChart.Series[serie].ChartType = SeriesChartType.FastLine;
+            AcclerometerChart.Series.Add(serie);
+            AcclerometerChart.Series[serie].ChartType = SeriesChartType.FastLine;
             // DataChart.Series[xSeries].BorderWidth = 2;      
         }
 
+
+
+
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      //      var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             //     var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
         //    var result = manager.GetEmailAsync("8cc2231a-ecf5-4c95-9b62-ca6610d5c3a7");

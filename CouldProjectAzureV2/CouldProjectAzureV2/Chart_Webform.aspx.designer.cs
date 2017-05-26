@@ -10,24 +10,33 @@
 namespace CouldProjectAzureV2 {
     
     
-    public partial class TestWebform {
+    public partial class Chart_Webform {
         
         /// <summary>
-        /// form1 control.
+        /// AcclerometerChart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.DataVisualization.Charting.Chart AcclerometerChart;
         
         /// <summary>
-        /// DataChart control.
+        /// LightChart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.DataVisualization.Charting.Chart DataChart;
+        protected global::System.Web.UI.DataVisualization.Charting.Chart LightChart;
+        
+        /// <summary>
+        /// ProximityChart control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.DataVisualization.Charting.Chart ProximityChart;
     }
 }

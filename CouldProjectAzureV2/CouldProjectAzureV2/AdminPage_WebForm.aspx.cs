@@ -24,7 +24,7 @@ namespace CouldProjectAzureV2
                 ViewState["postids"] = System.Guid.NewGuid().ToString();
                 Session["postid"] = ViewState["postids"].ToString();
 
-                System.Diagnostics.Debug.WriteLine("Not Post back");
+                Debug.WriteLine("Not Post back");
                 dataTable = new DataTable();
                 createDataTable();
                 addUsersToGridView();
@@ -32,7 +32,7 @@ namespace CouldProjectAzureV2
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Postback");
+                Debug.WriteLine("Postback");
                 dataTable = (DataTable)ViewState["DataTable"];
 
                 if (ViewState["postids"].ToString() != Session["postid"].ToString())
@@ -71,7 +71,7 @@ namespace CouldProjectAzureV2
         {
             var context = new IdentityDbContext();
             var users = context.Users.ToList();
-            //var users = context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("rolename")).ToList();   Använd denna senare
+            //var users = context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("rolename")).ToList();   Använd denna senare pga ska bara gälla för en role
             List<string> usersIdList = new List<string>();
 
             for (int i = 0; i < users.Count; i++)
@@ -88,7 +88,6 @@ namespace CouldProjectAzureV2
                 dataRow["UserName"] = users[i].UserName;
                 dataTable.Rows.Add(dataRow);
             }
-
 
         }
 
@@ -110,53 +109,33 @@ namespace CouldProjectAzureV2
                 Button samplingRateFastButton = (Button)UserGridView.Rows[i].FindControl("samplingRateFastButton");
 
 
-                if (userSettings.getAcceleroMeterOnoff().Equals(0))
-                {
-                    changeButtonAppearanceOnOff(true, acceleroMeterOnButton, acceleroMeterOffButton);
-                }
+                if (userSettings.getAcceleroMeterOnoff().Equals(1))
+                    changeButtonAppearanceOnOff(true, acceleroMeterOnButton, acceleroMeterOffButton);              
                 else
-                {
                     changeButtonAppearanceOnOff(false, acceleroMeterOnButton, acceleroMeterOffButton);
-                }
 
-                if (userSettings.getProximityOnoff().Equals(0))
-                {
+                if (userSettings.getProximityOnoff().Equals(1))
                     changeButtonAppearanceOnOff(true, proximityOnButton, proximityOffButton);
-                }
                 else
-                {
                     changeButtonAppearanceOnOff(false, proximityOnButton, proximityOffButton);
-                }
 
-                if (userSettings.getLightOnOff().Equals(0))
-                {
+                if (userSettings.getLightOnOff().Equals(1))
                     changeButtonAppearanceOnOff(true, lightOnButton, lightOffButton);
-                }
                 else
-                {
                     changeButtonAppearanceOnOff(false, lightOnButton, lightOffButton);
-                }
 
                 if (userSettings.getSamplingRate().Equals(1))
-                {
                     changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "1");
-                }
                 else if (userSettings.getSamplingRate().Equals(2))
-                {
                     changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "2");
-                }
                 else if (userSettings.getSamplingRate().Equals(3))
-                {
                     changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "3");
-                }
             }             
-
-
         }
 
 
         private void checkUserSettingList() { 
-}
+        }
 
         private void changeButtonAppearanceOnOff(Boolean on, Button onButton, Button offButton)
         {

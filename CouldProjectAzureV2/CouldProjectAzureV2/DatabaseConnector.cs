@@ -46,6 +46,7 @@ namespace CouldProjectAzureV2
             }
         }
 
+        //Anropa vid registrering
         public void setUserSettings(UserSettings userSettings)
         {
             executeSQLCommand("UPDATE UserSensorSettings SET userId = '" + userSettings.getUserId() + "', accelerometerOnOff = " + userSettings.getAcceleroMeterOnoff() + ", proximityOnOff = '" + userSettings.getProximityOnoff() + ", lightOnOff = " + userSettings.getLightOnOff() + ", samplingRate = " + userSettings.getSamplingRate());

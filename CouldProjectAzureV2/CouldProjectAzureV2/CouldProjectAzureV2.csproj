@@ -274,7 +274,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
-    <Content Include="TestWebform.aspx" />
+    <Content Include="Chart_Webform.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -453,12 +453,12 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="TestWebform.aspx.cs">
-      <DependentUpon>TestWebform.aspx</DependentUpon>
+    <Compile Include="Chart_Webform.aspx.cs">
+      <DependentUpon>Chart_Webform.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="TestWebform.aspx.designer.cs">
-      <DependentUpon>TestWebform.aspx</DependentUpon>
+    <Compile Include="Chart_Webform.aspx.designer.cs">
+      <DependentUpon>Chart_Webform.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserSettings.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
