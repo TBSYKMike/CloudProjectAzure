@@ -36,7 +36,7 @@ namespace CouldProjectAzureV2
                     {
                         while (reader.Read())
                         {
-                            userSettings = new UserSettings( reader.GetSqlValue(0).ToString(), Int32.Parse( reader.GetSqlValue(1).ToString()), Int32.Parse( reader.GetSqlValue(2).ToString()), Int32.Parse( reader.GetSqlValue(3).ToString()), Int32.Parse( reader.GetSqlValue(4).ToString()));
+                            userSettings = new UserSettings(reader.GetSqlValue(0).ToString(), Int32.Parse( reader.GetSqlValue(1).ToString()), Int32.Parse( reader.GetSqlValue(2).ToString()), Int32.Parse( reader.GetSqlValue(3).ToString()), Int32.Parse( reader.GetSqlValue(4).ToString()));
                         }
                         reader.Close();
                     }
@@ -49,12 +49,12 @@ namespace CouldProjectAzureV2
         //Anropa vid registrering
         public void setUserSettings(UserSettings userSettings)
         {
-            executeSQLCommand("UPDATE UserSensorSettings SET userId = '" + userSettings.getUserId() + "', accelerometerOnOff = " + userSettings.getAcceleroMeterOnoff() + ", proximityOnOff = '" + userSettings.getProximityOnoff() + ", lightOnOff = " + userSettings.getLightOnOff() + ", samplingRate = " + userSettings.getSamplingRate());
+            executeSQLCommand("INSERT INTO UserSensorSettings VALUES ('"+userSettings.getUserId()+"',"+ userSettings.getAcceleroMeterOnoff()+","+userSettings.getProximityOnoff()+","+userSettings.getLightOnOff()+","+userSettings.getSamplingRate()+")");
         }
 
         public void setSettingForUser(String userId, String collumName, int value)
         {
-            executeSQLCommand("UPDATE UserSensorSettings SET " + collumName + "=" + value + " WHERE userId = " + userId);
+            executeSQLCommand("UPDATE UserSensorSettings SET " + collumName + "=" + value + " WHERE userId = '" + userId +"'");
         }
 
     }

@@ -29,6 +29,7 @@ namespace CouldProjectAzureV2
                 createDataTable();
                 addUsersToGridView();
                 gridViewDataBind();
+                initializeButtonColors();
             }
             else
             {
@@ -43,6 +44,7 @@ namespace CouldProjectAzureV2
                 ViewState["postids"] = Session["postid"].ToString();
             }
             ViewState["DataTable"] = dataTable;
+     
         }
 
         private void createDataTable()
@@ -125,11 +127,11 @@ namespace CouldProjectAzureV2
                     changeButtonAppearanceOnOff(false, lightOnButton, lightOffButton);
 
                 if (userSettings.getSamplingRate().Equals(1))
-                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "1");
+                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "Slow");
                 else if (userSettings.getSamplingRate().Equals(2))
-                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "2");
+                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "Medium");
                 else if (userSettings.getSamplingRate().Equals(3))
-                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "3");
+                    changeButtonAppereanceSensor(samplingRateSlowButton, samplingRateMediumButton, samplingRateFastButton, "Fast");
             }             
         }
 
@@ -223,13 +225,13 @@ namespace CouldProjectAzureV2
             if (button.Text.Equals("On"))
             {
                 changeButtonAppearanceOnOff(true, onButton, offButton);
-                databaseConnector.setSettingForUser("2", collumnName, 1); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumnName, 1); //Ska vara usersIdAsList[index] istället för 2
 
             }
             else if (button.Text.Equals("Off"))
             {
                 changeButtonAppearanceOnOff(false, onButton, offButton);
-                databaseConnector.setSettingForUser("2", collumnName, 0); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumnName, 0); //Ska vara usersIdAsList[index] istället för 2
             }
         }
 
@@ -243,6 +245,7 @@ namespace CouldProjectAzureV2
 
         private void changeSamplingFrequency(object sender, String collumName)
         {
+            List<string> usersIdAsList = (List<string>)ViewState["usersIdInTable"];
             GridViewRow row = null;
             Button button = (Button)sender;
             row = (GridViewRow)button.NamingContainer;
@@ -256,17 +259,17 @@ namespace CouldProjectAzureV2
             if (button.Text.Equals("Slow"))
             {
                 changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Slow");
-                databaseConnector.setSettingForUser("2", collumName, 1); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 1); //Ska vara usersIdAsList[index] istället för 2
             }
             else if (button.Text.Equals("Medium"))
             {
                 changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Medium");
-                databaseConnector.setSettingForUser("2", collumName, 2); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 2); //Ska vara usersIdAsList[index] istället för 2
             }
             else
             {
                 changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Fast");
-                databaseConnector.setSettingForUser("2", collumName, 3); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 3); //Ska vara usersIdAsList[index] istället för 2
             }
         }
     }

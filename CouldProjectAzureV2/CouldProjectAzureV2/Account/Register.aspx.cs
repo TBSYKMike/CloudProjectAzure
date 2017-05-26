@@ -25,6 +25,7 @@ namespace CouldProjectAzureV2.Account
                 //manager.SendEmail(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>.");
 
                 signInManager.SignIn( user, isPersistent: false, rememberBrowser: false);
+                initilizeUserSensorSettings(user.Id);
                 IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
             }
             else 
@@ -32,5 +33,14 @@ namespace CouldProjectAzureV2.Account
                 ErrorMessage.Text = result.Errors.FirstOrDefault();
             }
         }
+
+        private void initilizeUserSensorSettings(string userId) //Stores inizial user settings for the sensors
+        {
+            DatabaseConnector databaseConnector = new DatabaseConnector();
+            UserSettings userSettings = new UserSettings(userId,1,1,1,1);
+            databaseConnector.setUserSettings(userSettings);
+        }
+
+        
     }
 }
