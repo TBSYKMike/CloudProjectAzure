@@ -42,6 +42,8 @@ namespace CouldProjectAzureV2
                 Debug.WriteLine("patient: " + usersInRole[i].UserName);
                 UserList.Items.Add(usersInRole[i].UserName);
             }
+            if(usersInRole!=null)
+                ViewState["UserListSelectedUser"] = "pick@stick.se"; // Ändra till usersInRole[0].UserName;
         }
 
         private void populateMeasurementList()
@@ -163,12 +165,19 @@ namespace CouldProjectAzureV2
 
         protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
         {
-            string date = CalendarOne.SelectedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            sensorData = azureTableConnector.RetriveDataFromSensors("people", date, "pick@stick.se");//Ändra från hårdkodat till listan. Måste vara felhantering pga måste väljas innan man trycker på kalendern!
-            DataStorage.getInstance().setSensorData(sensorData);
-            MeasurementList.Items.Clear();
-            populateMeasurementList();
-            callCreateChartMethods(sensorData);
+            if (ViewState["UserListSelectedUser"] != null)
+            {
+                string date = CalendarOne.SelectedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                sensorData = azureTableConnector.RetriveDataFromSensors("people", date, (string)ViewState["UserListSelectedUser"]);
+                DataStorage.getInstance().setSensorData(sensorData);
+                MeasurementList.Items.Clear();
+                populateMeasurementList();
+                callCreateChartMethods(sensorData);
+            }
+            else
+            {
+                Response.Write("<script>alert('You have to select a user')</script>");
+            }
         }
 
         protected void MeasurementList_SelectedIndexChanged(object sender, EventArgs e)
