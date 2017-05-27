@@ -22,7 +22,7 @@ namespace CouldProjectAzureV2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-  
+
 
             if (!IsPostBack)
             {
@@ -44,9 +44,24 @@ namespace CouldProjectAzureV2
             }
         }
 
-        private void createLightOrProximityGraph(string chartType)
+        private void populateMeasurementList()
         {
-            
+            //Splitta metadatan innan om mer metadata tex tal
+            for (int i = 0; i < sensorData.Count; i++)
+            {
+              if(sensorData[i].METAData != null)
+                {
+                    if (sensorData[i].METAData.Equals("Measurement START"))
+                    {
+                        string[] rowKeyValues = sensorData[i].RowKey.Split(';');
+                        MeasurementList.Items.Add(rowKeyValues[1]);
+                    }
+                }              
+            }
+        }
+
+        private void createOneSerieGraph(string chartType, List<Entity> sensorListParameter)
+        {
             string serie = "";
             if (chartType.Equals("LightChart"))
             {
@@ -67,24 +82,24 @@ namespace CouldProjectAzureV2
                 BatteryChart.Series[serie].ChartType = SeriesChartType.FastLine;
             }
 
-            for (int i = 0; i < sensorData.Count(); i++)
+            for (int i = 0; i < sensorListParameter.Count(); i++)
             {
-                if (sensorData[i].SensorLight != null && chartType.Equals("LightChart"))
+                if (sensorListParameter[i].SensorLight != null && chartType.Equals("LightChart"))
                 {
-                    LightChart.Series[serie].Points.Add(double.Parse(sensorData[i].SensorLight, CultureInfo.InvariantCulture));
+                    LightChart.Series[serie].Points.Add(double.Parse(sensorListParameter[i].SensorLight, CultureInfo.InvariantCulture));
                 }
-                else if (sensorData[i].SensorProximity != null && chartType.Equals("ProximityChart"))
+                else if (sensorListParameter[i].SensorProximity != null && chartType.Equals("ProximityChart"))
                 {
-                    ProximityChart.Series[serie].Points.Add(double.Parse(sensorData[i].SensorProximity, CultureInfo.InvariantCulture));
+                    ProximityChart.Series[serie].Points.Add(double.Parse(sensorListParameter[i].SensorProximity, CultureInfo.InvariantCulture));
                 }
-                else if (sensorData[i].BatteryLevel != null && chartType.Equals("BatteryChart"))
+                else if (sensorListParameter[i].BatteryLevel != null && chartType.Equals("BatteryChart"))
                 {
-                    BatteryChart.Series[serie].Points.Add(double.Parse(sensorData[i].BatteryLevel, CultureInfo.InvariantCulture));
+                    BatteryChart.Series[serie].Points.Add(double.Parse(sensorListParameter[i].BatteryLevel, CultureInfo.InvariantCulture));
                 }
             }
         }
 
-        private void createAcceleroMeterGraph()
+        private void createAccelerometerGraph(List<Entity> sensorListParameter)
         {
             string xSerie = "x";
             string ySerie = "y";
@@ -97,16 +112,41 @@ namespace CouldProjectAzureV2
             AcclerometerChart.Series[0].Color = System.Drawing.Color.Green;
             AcclerometerChart.Series[1].Color = System.Drawing.Color.Black;
             AcclerometerChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
-            
-            for (int i = 0; i < sensorData.Count(); i++)
+
+            for (int i = 0; i < sensorListParameter.Count(); i++)
             {
-                if (sensorData[i].SensorAccelerometerX != null && sensorData[i].SensorAccelerometerY != null && sensorData[i].SensorAccelerometerZ != null)
+                if (sensorListParameter[i].SensorAccelerometerX != null && sensorListParameter[i].SensorAccelerometerY != null && sensorListParameter[i].SensorAccelerometerZ != null)
                 {
-                    AcclerometerChart.Series[xSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerX, CultureInfo.InvariantCulture));
-                    AcclerometerChart.Series[ySerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerY, CultureInfo.InvariantCulture));
-                    AcclerometerChart.Series[zSerie].Points.Add(double.Parse(sensorData[i].SensorAccelerometerZ, CultureInfo.InvariantCulture));
+                    AcclerometerChart.Series[xSerie].Points.Add(double.Parse(sensorListParameter[i].SensorAccelerometerX, CultureInfo.InvariantCulture));
+                    AcclerometerChart.Series[ySerie].Points.Add(double.Parse(sensorListParameter[i].SensorAccelerometerY, CultureInfo.InvariantCulture));
+                    AcclerometerChart.Series[zSerie].Points.Add(double.Parse(sensorListParameter[i].SensorAccelerometerZ, CultureInfo.InvariantCulture));
                 }
             }
+        }
+
+        private List<Entity> filterSensorListOnMeasurement(string date)
+        {
+            List<Entity> fulleSensorDataList = DataStorage.getInstance().getSensorData();
+            Boolean isStarted = false;
+
+            for (int i=0;i< fulleSensorDataList.Count; i++)
+            {
+                string[] rowKeyValues = fulleSensorDataList[i].RowKey.Split(';');
+                if (fulleSensorDataList[i].METAData != null)
+                {
+                    if (fulleSensorDataList[i].METAData.Equals("Measurement START") && rowKeyValues[1].Equals(date))
+                        isStarted = true;
+                    else if (fulleSensorDataList[i].METAData.Equals("Measurement STOP"))
+                    {
+                        fulleSensorDataList.Add(fulleSensorDataList[i]);
+                        break;
+                    }
+                }
+                if (isStarted)
+                    fulleSensorDataList.Add(fulleSensorDataList[i]);
+
+            }
+            return fulleSensorDataList;
         }
 
         private void addAcceleroMeterDataToGraph(string serie)
@@ -116,38 +156,36 @@ namespace CouldProjectAzureV2
             // DataChart.Series[xSeries].BorderWidth = 2;      
         }
 
-        private void getDataOnChoosenTime()
+        protected void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
-      
-
+            ViewState["UserListSelectedUser"] = UserList.SelectedValue.ToString();
         }
 
         protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
         {
             string date = CalendarOne.SelectedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            sensorData = azureTableConnector.RetriveDataFromSensors("people", date, "Pick@stick.se");//Ändra från hårdkodat
-            //createLightOrProximityGraph("LightChart");
-            //createLightOrProximityGraph("ProximityChart");
-            // createLightOrProximityGraph("BatteryChart");           
-            createAcceleroMeterGraph();
+            sensorData = azureTableConnector.RetriveDataFromSensors("people", date, "pick@stick.se");//Ändra från hårdkodat till listan. Måste vara felhantering pga måste väljas innan man trycker på kalendern!
+            DataStorage.getInstance().setSensorData(sensorData);
+            MeasurementList.Items.Clear();
+            populateMeasurementList();
+            callCreateChartMethods(sensorData);
         }
 
+        protected void MeasurementList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            callCreateChartMethods(filterSensorListOnMeasurement(MeasurementList.SelectedValue.ToString()));
+        }
 
+        private void callCreateChartMethods(List<Entity> chartSensorEntities)
+        {
+            createAccelerometerGraph(chartSensorEntities);
+            createOneSerieGraph("LightChart",chartSensorEntities);
+            createOneSerieGraph("ProximityChart", chartSensorEntities);
+            createOneSerieGraph("BatteryChart", chartSensorEntities);
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -207,5 +245,4 @@ namespace CouldProjectAzureV2
                IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
            }*/
 
-    }
-}
+    

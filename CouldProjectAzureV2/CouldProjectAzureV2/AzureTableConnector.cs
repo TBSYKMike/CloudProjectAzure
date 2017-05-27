@@ -44,11 +44,10 @@ namespace CouldProjectAzureV2
                       Debug.WriteLine(entity.SensorProximity);
                       Debug.WriteLine("----------------------------------");
                      */
-
+                 
                     string[] values = entity.RowKey.Split(';');
                     string userNameAzure = values[0];
                     string fullDate = values[1];
-
 
                     if (fullDate.StartsWith(calenderDate) && username.Equals(userNameAzure))
                     {

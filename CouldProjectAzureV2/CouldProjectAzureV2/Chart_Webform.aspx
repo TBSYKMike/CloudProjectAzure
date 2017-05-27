@@ -1,7 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Chart_Webform.aspx.cs" Inherits="CouldProjectAzureV2.Chart_Webform" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div>
-    <asp:DropDownList ID="UserList" runat="server">
+    <asp:DropDownList ID="UserList" runat="server" AutoPostBack="True" OnSelectedIndexChanged="UserList_SelectedIndexChanged">
+        </asp:DropDownList>
+
+         <asp:DropDownList ID="MeasurementList" runat="server" AutoPostBack="True" OnSelectedIndexChanged="MeasurementList_SelectedIndexChanged">
         </asp:DropDownList>
         
         <asp:Calendar ID="CalendarOne" runat="server" OnSelectionChanged="CalendarOne_SelectionChanged"></asp:Calendar>
