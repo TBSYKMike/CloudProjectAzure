@@ -65,6 +65,13 @@ namespace CouldProjectAzureV2
 
         private void createOneSerieGraph(string chartType, List<Entity> sensorListParameter)
         {
+         /*   string[] maxIndex = sensorListParameter[sensorListParameter.Count - 1].RowKey.Split(';');
+            string[] firstIndex = sensorListParameter[0].RowKey.Split(';');
+
+            string start = firstIndex[1];
+            string stop = maxIndex[2];*/
+
+
             string serie = "";
             Table1.Rows.Add(new TableRow());
             if (chartType.Equals("LightChart"))
@@ -134,6 +141,34 @@ namespace CouldProjectAzureV2
             AcclerometerChart.Series[0].Color = System.Drawing.Color.Green;
             AcclerometerChart.Series[1].Color = System.Drawing.Color.Black;
             AcclerometerChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
+          
+        /*    string[] maxIndex = sensorListParameter[sensorListParameter.Count-1].RowKey.Split(';');
+            string[] firstIndex = sensorListParameter[0].RowKey.Split(';');
+            string start = firstIndex[1];
+            string stop = maxIndex[2];*/
+
+
+
+            // string[] r = high[1].Split(' ');
+            // string[] d = low[1].Split(' ');
+            //   string result = r[1].Replace(":", "");
+            // string result2 = d[1].Replace(":", "");
+
+
+            //Double AnovaResult = double.Parse(result2) / double.Parse(result);
+
+
+
+            //    string[] r = sensorListParameter[0].RowKey.Split(' ');
+            //  string[] d = sensorListParameter[0].RowKey.Split(' ');
+
+            //    string result = r[1].Replace(":", "");
+            //  string result2 = d[1].Replace(":", "");
+
+        //    AcclerometerChart.ChartAreas[0].AxisX.Minimum = 1;
+         //AcclerometerChart.ChartAreas[0].AxisX.Maximum = AnovaResult;
+
+
 
             for (int i = 0; i < sensorListParameter.Count(); i++)
             {
@@ -148,7 +183,6 @@ namespace CouldProjectAzureV2
 
         private List<Entity> filterSensorListOnMeasurement(string date)
         {
-            Response.Write("<script>alert('"+DataStorage.getInstance().getSensorData().Count+"')</script>");
             List<Entity> fulleSensorDataList = DataStorage.getInstance().getSensorData();
             List<Entity> sortedSensors = new List<Entity>();
             Boolean isStarted = false;
@@ -191,7 +225,8 @@ namespace CouldProjectAzureV2
             if (ViewState["UserListSelectedUser"] != null)
             {
                 string date = CalendarOne.SelectedDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                sensorData = azureTableConnector.RetriveDataFromSensors("people", date, (string)ViewState["UserListSelectedUser"]);
+                string nextDate = CalendarOne.SelectedDate.AddDays(1).ToString();
+                sensorData = azureTableConnector.RetriveDataFromSensors("people", date, nextDate, (string)ViewState["UserListSelectedUser"]);
                 DataStorage.getInstance().setSensorData(sensorData);
                 MeasurementList.Items.Clear();
                 populateMeasurementList();
