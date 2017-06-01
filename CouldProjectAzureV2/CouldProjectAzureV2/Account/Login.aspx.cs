@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Owin;
 using CouldProjectAzureV2.Models;
 using System.Diagnostics;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CouldProjectAzureV2.Account
 {
@@ -41,7 +42,21 @@ namespace CouldProjectAzureV2.Account
                     case SignInStatus.Success:
                         string userId = signinManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();                
                         getAndStoreUserSettings(userId);
-                        addCookieForAndroid("true", "loginSuccessCookie");                  
+                        addCookieForAndroid("true", "loginSuccessCookie");
+
+                        ApplicationDbContext context = new ApplicationDbContext();
+                        var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+                        if (UserManager.IsInRole(userId, "admin"))
+                        {
+
+                            this.Session["userRole"] = "admin";
+                        }
+                        else
+                        {
+                            this.Session["userRole"] = "patient";
+                        }
+
                         IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);                  
                         break;
                     case SignInStatus.LockedOut:

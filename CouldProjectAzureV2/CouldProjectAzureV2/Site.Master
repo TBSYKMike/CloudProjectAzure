@@ -58,13 +58,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server" href="~/">Application name</a>
+                    <a class="navbar-brand" runat="server" href="~/">Sleep Quality Analyzer 3000</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="~/">Home</a></li>
-                        <li><a runat="server" href="~/About">About</a></li>
-                        <li><a runat="server" href="~/Contact">Contact</a></li>
+                        <li><a id="Users" runat="server" href="~/AdminPage_WebForm">Users</a></li>
+                        <li><a id="Data" runat="server" href="~/Chart_WebForm">Data</a></li>
+                        <li><a id="RolesS" runat="server" href="~/RoleAssignPage_WebForm">Roles</a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>

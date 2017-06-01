@@ -13,6 +13,33 @@ namespace CouldProjectAzureV2 {
     public partial class SiteMaster {
         
         /// <summary>
+        /// Users control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor Users;
+        
+        /// <summary>
+        /// Data control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor Data;
+        
+        /// <summary>
+        /// RolesS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor RolesS;
+        
+        /// <summary>
         /// MainContent control.
         /// </summary>
         /// <remarks>
