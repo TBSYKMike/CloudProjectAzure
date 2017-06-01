@@ -148,7 +148,9 @@ namespace CouldProjectAzureV2
 
         private List<Entity> filterSensorListOnMeasurement(string date)
         {
+            Response.Write("<script>alert('"+DataStorage.getInstance().getSensorData().Count+"')</script>");
             List<Entity> fulleSensorDataList = DataStorage.getInstance().getSensorData();
+            List<Entity> sortedSensors = new List<Entity>();
             Boolean isStarted = false;
 
             for (int i = 0; i < fulleSensorDataList.Count; i++)
@@ -158,17 +160,17 @@ namespace CouldProjectAzureV2
                 {
                     if (fulleSensorDataList[i].METAData.Equals("Measurement START") && rowKeyValues[1].Equals(date))
                         isStarted = true;
-                    else if (fulleSensorDataList[i].METAData.Equals("Measurement STOP"))
+                    else if (fulleSensorDataList[i].METAData.Equals("Measurement STOP") && isStarted)
                     {
-                        fulleSensorDataList.Add(fulleSensorDataList[i]);
+                        sortedSensors.Add(fulleSensorDataList[i]);
                         break;
                     }
                 }
                 if (isStarted)
-                    fulleSensorDataList.Add(fulleSensorDataList[i]);
+                    sortedSensors.Add(fulleSensorDataList[i]);
 
             }
-            return fulleSensorDataList;
+            return sortedSensors;
         }
 
         private void addAcceleroMeterDataToGraph(string serie)
