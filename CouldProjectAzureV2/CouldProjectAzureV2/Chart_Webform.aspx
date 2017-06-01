@@ -15,7 +15,7 @@
     </Series>
             <chartareas>
                 <asp:ChartArea Name="ChartArea1">                  
-    <AxisY Title="Sensor Values">
+    <AxisY Title="Acccelerometer values">
     </AxisY>
      <AxisX Title="Time">
                 <LabelStyle Angle="-90" Interval="1" />
@@ -31,7 +31,7 @@
     </Series>
             <chartareas>
                 <asp:ChartArea Name="ChartArea1">                  
-    <AxisY Title="Sensor Values">
+    <AxisY Title="Light sensor Values">
     </AxisY>
      <AxisX Title="Time">
                 <LabelStyle Angle="-90" Interval="1" />
@@ -47,7 +47,7 @@
     </Series>
             <chartareas>
                 <asp:ChartArea Name="ChartArea1">                  
-    <AxisY Title="Sensor Values">
+    <AxisY Title="Proximity Values">
     </AxisY>
      <AxisX Title="Time">
                 <LabelStyle Angle="-90" Interval="1" />
@@ -70,7 +70,7 @@
     </Series>
             <chartareas>
                 <asp:ChartArea Name="ChartArea1">                  
-    <AxisY Title="Sensor Values">
+    <AxisY Title="Battery values">
     </AxisY>
      <AxisX Title="Time">
                 <LabelStyle Angle="-90" Interval="1" />

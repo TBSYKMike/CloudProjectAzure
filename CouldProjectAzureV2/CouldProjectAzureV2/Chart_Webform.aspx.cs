@@ -180,6 +180,7 @@ namespace CouldProjectAzureV2
 
         protected void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            MeasurementList.Items.Clear();
             ViewState["UserListSelectedUser"] = UserList.SelectedValue.ToString();
         }
 
@@ -207,6 +208,7 @@ namespace CouldProjectAzureV2
 
         private void callCreateChartMethods(List<Entity> chartSensorEntities)
         {
+            clearCharts();
             createAccelerometerGraph(chartSensorEntities);
             createOneSerieGraph("LightChart", chartSensorEntities);
             createOneSerieGraph("ProximityChart", chartSensorEntities);
@@ -214,6 +216,14 @@ namespace CouldProjectAzureV2
 
             createOneSerieGraph("METADATATable", chartSensorEntities);
 
+        }
+
+        private void clearCharts()
+        {
+            AcclerometerChart.Series.Clear();
+            ProximityChart.Series.Clear();
+            LightChart.Series.Clear();
+            BatteryChart.Series.Clear();
         }
     }
 
