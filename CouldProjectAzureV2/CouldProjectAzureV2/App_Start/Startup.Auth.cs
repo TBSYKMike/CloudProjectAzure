@@ -55,9 +55,9 @@ namespace CouldProjectAzureV2
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+             app.UseFacebookAuthentication(
+             appId: "845836308915929",
+             appSecret: "d479fd287f77249e5267cfd66f4589bf");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

@@ -190,6 +190,13 @@ namespace CouldProjectAzureV2
             if (!pageRefresh)
                 updateSensorStatus(sender, "lightOnOff");
         }
+     
+        public void userNameOnClick(object sender, EventArgs ew)
+        {
+            LinkButton linkButton = (LinkButton)sender;
+            DataStorage.getInstance().setSelectedUser(linkButton.Text);
+            Response.Redirect("RoleAssignPage_WebForm");
+        }
 
         private void updateSensorStatus(object sender, String collumnName)
         {

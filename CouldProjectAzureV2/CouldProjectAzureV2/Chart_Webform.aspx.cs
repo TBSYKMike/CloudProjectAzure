@@ -43,7 +43,7 @@ namespace CouldProjectAzureV2
                 UserList.Items.Add(usersInRole[i].UserName);
             }
             if(usersInRole!=null)
-                ViewState["UserListSelectedUser"] = "pick@stick.se"; // Ändra till usersInRole[0].UserName;
+                ViewState["UserListSelectedUser"] = usersInRole[0].UserName; // Ändra till usersInRole[0].UserName;
         }
 
         private void populateMeasurementList()
@@ -213,7 +213,7 @@ namespace CouldProjectAzureV2
         //   Debug.WriteLine("Look at the result:   " + user.ToString());
 
 
-        // var manager = new UserManager<MyUser>(new UserStore<MyUser>(new MyDbContext()));
+        //var manager = new UserManager<MyUser>(new UserStore<MyUser>(new MyDbContext()));
 
         //            var user = new MyUser {};
         //          user.

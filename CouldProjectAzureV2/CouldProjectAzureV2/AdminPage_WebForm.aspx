@@ -9,7 +9,7 @@
 
                         <asp:TemplateField HeaderText="UserName">
                             <ItemTemplate>
-                                <asp:LinkButton runat="server" CssClass="noeffect" ID="openProductButton" Text='<%# Eval("UserName") %>' Style="font-size: 12px;"></asp:LinkButton>
+                                <asp:LinkButton runat="server" CssClass="noeffect" ID="openProductButton" Text='<%# Eval("UserName") %>' Style="font-size: 12px;" OnClick="userNameOnClick"></asp:LinkButton>
 
                             </ItemTemplate>
                         </asp:TemplateField>
