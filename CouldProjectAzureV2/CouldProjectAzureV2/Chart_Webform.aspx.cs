@@ -14,6 +14,7 @@ namespace CouldProjectAzureV2
     using System.Speech.Recognition;
     using System.Web;
     using System.Web.Security;
+    using System.Web.UI.WebControls;
 
     public partial class Chart_Webform : System.Web.UI.Page
     {
@@ -42,8 +43,11 @@ namespace CouldProjectAzureV2
                 Debug.WriteLine("patient: " + usersInRole[i].UserName);
                 UserList.Items.Add(usersInRole[i].UserName);
             }
-            if(usersInRole!=null)
-                ViewState["UserListSelectedUser"] = "pick@stick.se"; // Ändra till usersInRole[0].UserName;
+            if (usersInRole != null)
+            {
+                //ViewState["UserListSelectedUser"] = "pick@stick.se"; // Ändra till usersInRole[0].UserName;
+                ViewState["UserListSelectedUser"] = usersInRole[0].UserName;
+            }
         }
 
         private void populateMeasurementList()
@@ -51,20 +55,21 @@ namespace CouldProjectAzureV2
             //Splitta metadatan innan om mer metadata tex tal
             for (int i = 0; i < sensorData.Count; i++)
             {
-              if(sensorData[i].METAData != null)
+                if (sensorData[i].METAData != null)
                 {
                     if (sensorData[i].METAData.Equals("Measurement START"))
                     {
                         string[] rowKeyValues = sensorData[i].RowKey.Split(';');
                         MeasurementList.Items.Add(rowKeyValues[1]);
                     }
-                }              
+                }
             }
         }
 
         private void createOneSerieGraph(string chartType, List<Entity> sensorListParameter)
         {
             string serie = "";
+            Table1.Rows.Add(new TableRow());
             if (chartType.Equals("LightChart"))
             {
                 serie = "lightSensor";
@@ -84,6 +89,7 @@ namespace CouldProjectAzureV2
                 BatteryChart.Series[serie].ChartType = SeriesChartType.FastLine;
             }
 
+
             for (int i = 0; i < sensorListParameter.Count(); i++)
             {
                 if (sensorListParameter[i].SensorLight != null && chartType.Equals("LightChart"))
@@ -98,6 +104,24 @@ namespace CouldProjectAzureV2
                 {
                     BatteryChart.Series[serie].Points.Add(double.Parse(sensorListParameter[i].BatteryLevel, CultureInfo.InvariantCulture));
                 }
+                else if (sensorListParameter[i].METAData != null && chartType.Equals("METADATATable"))
+                {
+
+                    string[] stringSplit = sensorListParameter[i].RowKey.Split(';');
+
+                    
+
+                    TableRow tRow = new TableRow();
+                    Table1.Rows.Add(tRow);
+
+                    // Create a new cell and add it to the row.
+                    TableCell tCell = new TableCell();
+                    tCell.Text = "Time " + stringSplit[1] + ", Cell " + sensorListParameter[i].METAData;
+                    tRow.Cells.Add(tCell);
+
+                }
+
+
             }
         }
 
@@ -131,7 +155,7 @@ namespace CouldProjectAzureV2
             List<Entity> fulleSensorDataList = DataStorage.getInstance().getSensorData();
             Boolean isStarted = false;
 
-            for (int i=0;i< fulleSensorDataList.Count; i++)
+            for (int i = 0; i < fulleSensorDataList.Count; i++)
             {
                 string[] rowKeyValues = fulleSensorDataList[i].RowKey.Split(';');
                 if (fulleSensorDataList[i].METAData != null)
@@ -188,15 +212,21 @@ namespace CouldProjectAzureV2
         private void callCreateChartMethods(List<Entity> chartSensorEntities)
         {
             createAccelerometerGraph(chartSensorEntities);
-            createOneSerieGraph("LightChart",chartSensorEntities);
+            createOneSerieGraph("LightChart", chartSensorEntities);
             createOneSerieGraph("ProximityChart", chartSensorEntities);
             createOneSerieGraph("BatteryChart", chartSensorEntities);
+
+            createOneSerieGraph("METADATATable", chartSensorEntities);
+
+
         }
+
+
+
     }
 
+
 }
-
-
 
 
 
@@ -213,45 +243,45 @@ namespace CouldProjectAzureV2
         //   Debug.WriteLine("Look at the result:   " + user.ToString());
 
 
-        // var manager = new UserManager<MyUser>(new UserStore<MyUser>(new MyDbContext()));
+// var manager = new UserManager<MyUser>(new UserStore<MyUser>(new MyDbContext()));
 
-        //            var user = new MyUser {};
-        //          user.
-        //        IdentityResult result = manager
+//            var user = new MyUser {};
+//          user.
+//        IdentityResult result = manager
 
-        /*    var userSettings = new UserSensorSettings() { };
-            userSettings.userId = 34;
-            userSettings.accelerometerOnOff = 1;
-            userSettings.lightOnOff = 1;
-            userSettings.proximityOnOff = 0;
-            userSettings.samplingRate = 1000;*/
+/*    var userSettings = new UserSensorSettings() { };
+    userSettings.userId = 34;
+    userSettings.accelerometerOnOff = 1;
+    userSettings.lightOnOff = 1;
+    userSettings.proximityOnOff = 0;
+    userSettings.samplingRate = 1000;*/
 
-        //var user = new MyUser() {  };
-        // user.UserSensorSettings.accelerometerOnOff = 1;
-        // user.UserSensorSettings.userId = 12;
+//var user = new MyUser() {  };
+// user.UserSensorSettings.accelerometerOnOff = 1;
+// user.UserSensorSettings.userId = 12;
 
-        // var currentUser = manager.FindById(User.Identity.GetUserId());
-        // var ef = currentUser.UserSensorSettings.proximityOnOff;
-
-
+// var currentUser = manager.FindById(User.Identity.GetUserId());
+// var ef = currentUser.UserSensorSettings.proximityOnOff;
 
 
-        //var conf = new MyDbContext();
-        // conf.MyUserInfo = user;
-        // conf.SaveChanges();
 
 
-        /*   IdentityResult result = manager.Create();
+//var conf = new MyDbContext();
+// conf.MyUserInfo = user;
+// conf.SaveChanges();
 
-           if (result.Succeeded)
-           {
-               signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
 
-               string role = (string)Session["selectedRole"];
-               giveRoleToUser(user, role);
-               Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie); //We cant find the users role if we do not log out and in
-               signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
-               IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-           }*/
+/*   IdentityResult result = manager.Create();
 
-    
+   if (result.Succeeded)
+   {
+       signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+
+       string role = (string)Session["selectedRole"];
+       giveRoleToUser(user, role);
+       Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie); //We cant find the users role if we do not log out and in
+       signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+       IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+   }*/
+
+

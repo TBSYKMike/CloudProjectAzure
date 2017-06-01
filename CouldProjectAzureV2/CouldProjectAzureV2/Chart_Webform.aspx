@@ -80,7 +80,10 @@
         </asp:Chart>
     
     </div>
-         
+     <div>
+         <asp:Table ID="Table1" runat="server"></asp:Table>
+     </div>     
+
 </asp:Content>
 
 
