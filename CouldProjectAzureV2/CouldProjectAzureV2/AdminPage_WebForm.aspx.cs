@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -72,22 +73,24 @@ namespace CouldProjectAzureV2
         private void addUsersToGridView()
         {
             var context = new IdentityDbContext();
-            var users = context.Users.ToList();
-            //var users = context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("rolename")).ToList();   Använd denna senare pga ska bara gälla för en role
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new IdentityDbContext()));
+            var users = rm.FindByName("patient").Users.Select(x => x.UserId);
+            var usersInRole = context.Users.Where(u => users.Contains(u.Id)).ToList();
+
             List<string> usersIdList = new List<string>();
 
-            for (int i = 0; i < users.Count; i++)
+            for (int i = 0; i < usersInRole.Count; i++)
             {
-                usersIdList.Add(users[i].Id);
+                usersIdList.Add(usersInRole[i].Id);
             }
 
             ViewState["usersIdInTable"] = usersIdList;
 
-            for (int i = 0; i < users.Count; i++)
+            for (int i = 0; i < usersInRole.Count; i++)
             {
                 DataRow dataRow = dataTable.NewRow();
-                dataRow["Email"] = users[i].Email;
-                dataRow["UserName"] = users[i].UserName;
+                dataRow["Email"] = usersInRole[i].Email;
+                dataRow["UserName"] = usersInRole[i].UserName;
                 dataTable.Rows.Add(dataRow);
             }
 
@@ -189,6 +192,13 @@ namespace CouldProjectAzureV2
         {
             if (!pageRefresh)
                 updateSensorStatus(sender, "lightOnOff");
+        }
+     
+        public void userNameOnClick(object sender, EventArgs ew)
+        {
+            LinkButton linkButton = (LinkButton)sender;
+            DataStorage.getInstance().setSelectedUser(linkButton.Text);
+            Response.Redirect("RoleAssignPage_WebForm");
         }
 
         private void updateSensorStatus(object sender, String collumnName)

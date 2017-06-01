@@ -106,6 +106,8 @@ namespace CouldProjectAzureV2.Account
                 result = manager.AddLogin(user.Id, loginInfo.Login);
                 if (result.Succeeded)
                 {
+                    initilizeUserSensorSettings(user.Id);
+                    giveRoleToUser(user, "patient");
                     signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -117,6 +119,22 @@ namespace CouldProjectAzureV2.Account
                 }
             }
             AddErrors(result);
+        }
+
+
+        private void initilizeUserSensorSettings(string userId) //Stores inizial user settings for the sensors
+        {
+            DatabaseConnector databaseConnector = new DatabaseConnector();
+            UserSettings userSettings = new UserSettings(userId, 1, 1, 1, 1);
+            databaseConnector.setUserSettings(userSettings);
+        }
+
+        private void giveRoleToUser(ApplicationUser theuser, string therole)
+        {
+            ApplicationDbContext dbContext = new ApplicationDbContext();
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            manager.AddToRole(theuser.Id, therole);
+            dbContext.SaveChanges();
         }
 
         private void AddErrors(IdentityResult result) 

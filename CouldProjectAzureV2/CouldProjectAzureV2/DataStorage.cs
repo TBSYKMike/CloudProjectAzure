@@ -8,6 +8,7 @@ namespace CouldProjectAzureV2
     public class DataStorage
     {
         private List<Entity> sensorData;
+        private string selectedUser;
 
         private static DataStorage ourInstance = new DataStorage();
 
@@ -23,6 +24,14 @@ namespace CouldProjectAzureV2
         public List<Entity> getSensorData()
         {
             return sensorData;
+        }
+        public string getSelectedUser()
+        {
+            return selectedUser;
+        }
+        public void setSelectedUser(string selectedUser)
+        {
+            this.selectedUser = selectedUser;
         }
     }
 }
