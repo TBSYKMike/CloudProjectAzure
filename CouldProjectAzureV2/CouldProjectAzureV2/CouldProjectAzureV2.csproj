@@ -223,6 +223,7 @@
     <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="Account\ResetPassword.aspx" />
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
+    <Content Include="CreateRole_WebForm.aspx" />
     <Content Include="RoleAssignPage_WebForm.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
@@ -384,6 +385,13 @@
     </Compile>
     <Compile Include="Account\ResetPasswordConfirmation.aspx.designer.cs">
       <DependentUpon>ResetPasswordConfirmation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreateRole_WebForm.aspx.cs">
+      <DependentUpon>CreateRole_WebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreateRole_WebForm.aspx.designer.cs">
+      <DependentUpon>CreateRole_WebForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="RoleAssignPage_WebForm.aspx.cs">
       <DependentUpon>RoleAssignPage_WebForm.aspx</DependentUpon>

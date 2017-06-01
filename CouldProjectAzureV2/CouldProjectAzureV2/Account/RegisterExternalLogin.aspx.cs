@@ -113,10 +113,28 @@ namespace CouldProjectAzureV2.Account
                     // Send this link via email: IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id)
 
                     IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                 //   initilizeUserSensorSettings(user.Id);
+                   // giveRoleToUser(user, "patient");
                     return;
                 }
             }
             AddErrors(result);
+        }
+
+
+        private void initilizeUserSensorSettings(string userId) //Stores inizial user settings for the sensors
+        {
+            DatabaseConnector databaseConnector = new DatabaseConnector();
+            UserSettings userSettings = new UserSettings(userId, 1, 1, 1, 1);
+            databaseConnector.setUserSettings(userSettings);
+        }
+
+        private void giveRoleToUser(ApplicationUser theuser, string therole)
+        {
+            ApplicationDbContext dbContext = new ApplicationDbContext();
+            var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            manager.AddToRole(theuser.Id, therole);
+            dbContext.SaveChanges();
         }
 
         private void AddErrors(IdentityResult result) 
