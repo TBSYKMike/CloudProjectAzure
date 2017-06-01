@@ -19,10 +19,12 @@ namespace CouldProjectAzureV2
 
         public void setSensorData(List<Entity> sensorData)
         {
+         
             this.sensorData = sensorData;
         }
         public List<Entity> getSensorData()
         {
+            List<Entity> sensorDataTemp = sensorData;
             return sensorData;
         }
         public string getSelectedUser()
