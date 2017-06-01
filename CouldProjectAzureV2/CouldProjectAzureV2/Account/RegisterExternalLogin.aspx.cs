@@ -106,6 +106,8 @@ namespace CouldProjectAzureV2.Account
                 result = manager.AddLogin(user.Id, loginInfo.Login);
                 if (result.Succeeded)
                 {
+                    initilizeUserSensorSettings(user.Id);
+                    giveRoleToUser(user, "patient");
                     signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -113,8 +115,6 @@ namespace CouldProjectAzureV2.Account
                     // Send this link via email: IdentityHelper.GetUserConfirmationRedirectUrl(code, user.Id)
 
                     IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-                 //   initilizeUserSensorSettings(user.Id);
-                   // giveRoleToUser(user, "patient");
                     return;
                 }
             }

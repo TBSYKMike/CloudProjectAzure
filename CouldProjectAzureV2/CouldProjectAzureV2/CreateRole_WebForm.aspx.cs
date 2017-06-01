@@ -28,7 +28,7 @@ namespace CouldProjectAzureV2
             }
             else
             {
-                Response.Write("<script>alert('Error when creating role")</script>");
+                Response.Write("<script>alert('Error when creating role)</script>");
                 Debug.WriteLine("cant create user");
             }
         }
