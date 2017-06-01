@@ -69,7 +69,22 @@ namespace CouldProjectAzureV2
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Data.Visible = false;
+            Users.Visible = false;
+            RolesS.Visible = false;
 
+            if (this.Session["userRole"] != null)
+            {
+
+                if (this.Session["userRole"].Equals("admin"))
+                {
+
+
+                    Data.Visible = true;
+                    Users.Visible = true;
+                    RolesS.Visible = true; 
+                }
+            }
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
