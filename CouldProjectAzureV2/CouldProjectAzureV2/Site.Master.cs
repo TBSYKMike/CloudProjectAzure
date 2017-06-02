@@ -69,7 +69,9 @@ namespace CouldProjectAzureV2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Data.Visible = false;
+            bool userLoginStatus = System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+            if (userLoginStatus) { 
+                Data.Visible = false;
             Users.Visible = false;
             RolesS.Visible = false;
 
@@ -84,6 +86,13 @@ namespace CouldProjectAzureV2
                     Users.Visible = true;
                     RolesS.Visible = true; 
                 }
+            }
+            }
+            else
+            {
+                Data.Visible = false;
+                Users.Visible = false;
+                RolesS.Visible = false;
             }
         }
 
