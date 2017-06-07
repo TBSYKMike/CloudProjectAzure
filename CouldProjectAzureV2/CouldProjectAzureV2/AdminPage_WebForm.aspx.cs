@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace CouldProjectAzureV2
 {
+    /*This class is for the admin page where user settings adjustments can be changed*/
     public partial class AdminPage_WebForm : System.Web.UI.Page
     {
         private DatabaseConnector databaseConnector = new DatabaseConnector();
@@ -20,7 +21,7 @@ namespace CouldProjectAzureV2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            if (!Page.IsPostBack) //Initialize gridview components if not postback
             {
                 ViewState["postids"] = System.Guid.NewGuid().ToString();
                 Session["postid"] = ViewState["postids"].ToString();
@@ -70,6 +71,8 @@ namespace CouldProjectAzureV2
             UserGridView.DataSource = dataTable;
             UserGridView.DataBind();
         }
+
+        //Adds all patients to the gridview
         private void addUsersToGridView()
         {
             var context = new IdentityDbContext();
@@ -96,6 +99,7 @@ namespace CouldProjectAzureV2
 
         }
 
+        //Retrieves patient user settings from database and set current settings in the gridview
         private void initializeButtonColors() 
         {
             List<string> usersIdAsList = (List<string>)ViewState["usersIdInTable"];
@@ -201,6 +205,7 @@ namespace CouldProjectAzureV2
             Response.Redirect("RoleAssignPage_WebForm");
         }
 
+        //When the user is changning a sensor setting. Updates the button class and the database collumn
         private void updateSensorStatus(object sender, String collumnName)
         {
             GridViewRow row = null;
@@ -235,16 +240,15 @@ namespace CouldProjectAzureV2
             if (button.Text.Equals("On"))
             {
                 changeButtonAppearanceOnOff(true, onButton, offButton);
-                databaseConnector.setSettingForUser(usersIdAsList[index], collumnName, 1); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumnName, 1);
 
             }
             else if (button.Text.Equals("Off"))
             {
                 changeButtonAppearanceOnOff(false, onButton, offButton);
-                databaseConnector.setSettingForUser(usersIdAsList[index], collumnName, 0); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumnName, 0);
             }
         }
-
 
         public void changeSamplingFrequencyClick(object sender, EventArgs e)
         {
@@ -253,6 +257,7 @@ namespace CouldProjectAzureV2
                 changeSamplingFrequency(sender, "samplingRate");
         }
 
+        //When the user is changning a sensor frequency. Updates the button class and the database collumn
         private void changeSamplingFrequency(object sender, String collumName)
         {
             List<string> usersIdAsList = (List<string>)ViewState["usersIdInTable"];
@@ -269,17 +274,17 @@ namespace CouldProjectAzureV2
             if (button.Text.Equals("Slow"))
             {
                 changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Slow");
-                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 1); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 1);
             }
             else if (button.Text.Equals("Medium"))
             {
                 changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Medium");
-                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 2); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 2);
             }
             else
             {
                 changeButtonAppereanceSensor(slowButton, mediumButton, fastButton, "Fast");
-                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 3); //Ska vara usersIdAsList[index] istället för 2
+                databaseConnector.setSettingForUser(usersIdAsList[index], collumName, 3);
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Web;
 
 namespace CouldProjectAzureV2
 {
+    //A class used to temporary store variables. Especially needed for Entity because it is not serializable and therefore cant be in session
     public class DataStorage
     {
         private List<Entity> sensorData;

@@ -16,6 +16,7 @@ namespace CouldProjectAzureV2
     using System.Web.Security;
     using System.Web.UI.WebControls;
 
+    /*This class is for the chart presentation page*/
     public partial class Chart_Webform : System.Web.UI.Page
     {
         private AzureTableConnector azureTableConnector = new AzureTableConnector();
@@ -31,6 +32,7 @@ namespace CouldProjectAzureV2
             }
         }
 
+        //To insert all patients in the dropdownlist
         private void populateUserDropDownList()
         {
             var context = new IdentityDbContext();
@@ -47,6 +49,7 @@ namespace CouldProjectAzureV2
                 ViewState["UserListSelectedUser"] = usersInRole[0].UserName; // Ändra till usersInRole[0].UserName;
         }
 
+        //To insert all different measurements in the dropdownlist
         private void populateMeasurementList()
         {
             //Splitta metadatan innan om mer metadata tex tal
@@ -63,15 +66,9 @@ namespace CouldProjectAzureV2
             }
         }
 
+        //Called when creating a sensor chart with one serie (all except accelerometer)
         private void createOneSerieGraph(string chartType, List<Entity> sensorListParameter)
         {
-         /*   string[] maxIndex = sensorListParameter[sensorListParameter.Count - 1].RowKey.Split(';');
-            string[] firstIndex = sensorListParameter[0].RowKey.Split(';');
-
-            string start = firstIndex[1];
-            string stop = maxIndex[2];*/
-
-
             string serie = "";
             Table1.Rows.Add(new TableRow());
             if (chartType.Equals("LightChart"))
@@ -112,22 +109,19 @@ namespace CouldProjectAzureV2
 
                     string[] stringSplit = sensorListParameter[i].RowKey.Split(';');
 
-
-
                     TableRow tRow = new TableRow();
                     Table1.Rows.Add(tRow);
 
                     // Create a new cell and add it to the row.
                     TableCell tCell = new TableCell();
-                    tCell.Text = "Time " + stringSplit[1] + ", Cell " + sensorListParameter[i].METAData;
+                    tCell.Text = "Time " + stringSplit[1] + ", Metadata: " + sensorListParameter[i].METAData;
                     tRow.Cells.Add(tCell);
 
                 }
-
-
             }
         }
 
+        //Called when creating a one serie chart
         private void createAccelerometerGraph(List<Entity> sensorListParameter)
         {
             string xSerie = "x";
@@ -141,35 +135,7 @@ namespace CouldProjectAzureV2
             AcclerometerChart.Series[0].Color = System.Drawing.Color.Green;
             AcclerometerChart.Series[1].Color = System.Drawing.Color.Black;
             AcclerometerChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
-          
-        /*    string[] maxIndex = sensorListParameter[sensorListParameter.Count-1].RowKey.Split(';');
-            string[] firstIndex = sensorListParameter[0].RowKey.Split(';');
-            string start = firstIndex[1];
-            string stop = maxIndex[2];*/
-
-
-
-            // string[] r = high[1].Split(' ');
-            // string[] d = low[1].Split(' ');
-            //   string result = r[1].Replace(":", "");
-            // string result2 = d[1].Replace(":", "");
-
-
-            //Double AnovaResult = double.Parse(result2) / double.Parse(result);
-
-
-
-            //    string[] r = sensorListParameter[0].RowKey.Split(' ');
-            //  string[] d = sensorListParameter[0].RowKey.Split(' ');
-
-            //    string result = r[1].Replace(":", "");
-            //  string result2 = d[1].Replace(":", "");
-
-        //    AcclerometerChart.ChartAreas[0].AxisX.Minimum = 1;
-         //AcclerometerChart.ChartAreas[0].AxisX.Maximum = AnovaResult;
-
-
-
+        
             for (int i = 0; i < sensorListParameter.Count(); i++)
             {
                 if (sensorListParameter[i].SensorAccelerometerX != null && sensorListParameter[i].SensorAccelerometerY != null && sensorListParameter[i].SensorAccelerometerZ != null)
@@ -181,6 +147,7 @@ namespace CouldProjectAzureV2
             }
         }
 
+        //When filtering the entity list on a measurement
         private List<Entity> filterSensorListOnMeasurement(string date)
         {
             List<Entity> fulleSensorDataList = DataStorage.getInstance().getSensorData();
@@ -210,8 +177,7 @@ namespace CouldProjectAzureV2
         private void addAcceleroMeterDataToGraph(string serie)
         {
             AcclerometerChart.Series.Add(serie);
-            AcclerometerChart.Series[serie].ChartType = SeriesChartType.FastLine;
-            // DataChart.Series[xSeries].BorderWidth = 2;      
+            AcclerometerChart.Series[serie].ChartType = SeriesChartType.FastLine;      
         }
 
         protected void UserList_SelectedIndexChanged(object sender, EventArgs e)
@@ -220,6 +186,7 @@ namespace CouldProjectAzureV2
             ViewState["UserListSelectedUser"] = UserList.SelectedValue.ToString();
         }
 
+        //When the user picks a data in the calender. Retrieves the data from the table storage for that date based on the user
         protected void CalendarOne_SelectionChanged(object sender, EventArgs e)
         {
             if (ViewState["UserListSelectedUser"] != null)
@@ -250,9 +217,7 @@ namespace CouldProjectAzureV2
             createOneSerieGraph("LightChart", chartSensorEntities);
             createOneSerieGraph("ProximityChart", chartSensorEntities);
             createOneSerieGraph("BatteryChart", chartSensorEntities);
-
             createOneSerieGraph("METADATATable", chartSensorEntities);
-
         }
 
         private void clearCharts()

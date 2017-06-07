@@ -41,8 +41,8 @@ namespace CouldProjectAzureV2.Account
                 {
                     case SignInStatus.Success:
                         string userId = signinManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();                
-                        getAndStoreUserSettings(userId);
-                        addCookieForAndroid("true", "loginSuccessCookie");
+                        getAndStoreUserSettings(userId); // Call create setting cookies 
+                        addCookieForAndroid("true", "loginSuccessCookie");  //Call create login success cookie
 
                         ApplicationDbContext context = new ApplicationDbContext();
                         var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -78,7 +78,7 @@ namespace CouldProjectAzureV2.Account
             }
         }
 
-        private void addCookieForAndroid(String cookieStatus, String cookieName)
+        private void addCookieForAndroid(String cookieStatus, String cookieName) //Store cookies that Android can use on login
         {
             HttpCookie loginCookie = new HttpCookie(cookieName);
             loginCookie.Values.Add(cookieStatus, "status");
@@ -87,7 +87,7 @@ namespace CouldProjectAzureV2.Account
             Debug.WriteLine("Added cookie for Android");
         }
 
-        private void getAndStoreUserSettings(String userId)
+        private void getAndStoreUserSettings(String userId)  // Retrieves settings from the database and call the addCookie method
         {
             DatabaseConnector databaseConnector = new DatabaseConnector();
             UserSettings userSettings = databaseConnector.getUserSettings(userId);

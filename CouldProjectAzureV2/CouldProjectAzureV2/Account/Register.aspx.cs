@@ -44,31 +44,13 @@ namespace CouldProjectAzureV2.Account
             databaseConnector.setUserSettings(userSettings);
         }
 
-        private void giveRoleToUser(ApplicationUser theuser, string therole)
+        private void giveRoleToUser(ApplicationUser theuser, string therole) //Assigns a role to the user
         {
             ApplicationDbContext dbContext = new ApplicationDbContext();
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             manager.AddToRole(theuser.Id, therole);
             dbContext.SaveChanges();
         }
-
-        //Temporärt
-        /*private void createRole(string rolename)
-        {
-            ApplicationDbContext dbcontext = new ApplicationDbContext();
-            var role = new RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(new Microsoft.AspNet.Identity.EntityFramework.RoleStore<IdentityRole>(dbcontext));
-            var roleresult = role.Create(new IdentityRole(rolename));
-            if (roleresult.Succeeded)
-            {
-
-            }
-
-            else
-            {
-                Debug.WriteLine("cant create user");
-            }
-        }*/
-
 
     }
 }

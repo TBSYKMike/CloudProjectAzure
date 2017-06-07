@@ -66,7 +66,7 @@ namespace CouldProjectAzureV2
                 }
             }
         }
-
+        //Sets the page layout according to user's role
         protected void Page_Load(object sender, EventArgs e)
         {
             bool userLoginStatus = System.Web.HttpContext.Current.User.Identity.IsAuthenticated;

@@ -15,6 +15,7 @@ using System.Web.UI.WebControls;
 
 namespace CouldProjectAzureV2.Account
 {
+    //Class for the role assign page
     public partial class RoleAssignPage_WebForm : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -24,6 +25,8 @@ namespace CouldProjectAzureV2.Account
                 roleListPopulation();
             }
         }
+
+        //Populate the role dropdownlist with users
         private void roleListPopulation()
         {
             RoleDropDownList.Items.Clear();
@@ -39,23 +42,15 @@ namespace CouldProjectAzureV2.Account
 
         private void giveRoleToUser(string roleName)
         {
-            //Delete previus role
-
             ApplicationDbContext context = new ApplicationDbContext();
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-         //  Response.Write("<script>alert('" + DataStorage.getInstance().getSelectedUser() + "')</script>");
             ApplicationUser applicationUser = userManager.FindByEmail(DataStorage.getInstance().getSelectedUser());
-
-            //  Response.Write("<script>alert('"+ applicationUser.UserName+ "')</script>");
-        //    string[] usersRole = Roles.GetRolesForUser(DataStorage.getInstance().getSelectedUser()).ToArray();
-          //if(usersRole!=null)
-            //  userManager.RemoveFromRole(applicationUser.UserName, usersRole[0]);
 
             //Add user to the new role
             userManager.AddToRole(applicationUser.Id, roleName);
-             context.SaveChanges();
+            context.SaveChanges();
 
-             Response.Write("<script>alert('Assigned role to user')</script>");
+            Response.Write("<script>alert('Assigned role to user')</script>");
         }
 
         protected void RoleDropDownList_SelectedIndexChanged(object sender, EventArgs e)

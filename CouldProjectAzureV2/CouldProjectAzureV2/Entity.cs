@@ -6,7 +6,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace CouldProjectAzureV2
 {
-
+    //Entity class
     public class Entity : TableEntity
         {
 

@@ -11,12 +11,15 @@ using System.Web.UI.WebControls;
 
 namespace CouldProjectAzureV2
 {
+    //A class that is used for the creating role page
     public partial class CreateRole_WebForm : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
+
+        //Method for creating a certain role
         private void createRole(string rolename)
         {
             ApplicationDbContext dbcontext = new ApplicationDbContext();
