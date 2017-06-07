@@ -44,9 +44,11 @@ namespace CouldProjectAzureV2.Account
                         getAndStoreUserSettings(userId); // Call create setting cookies 
                         addCookieForAndroid("true", "loginSuccessCookie");  //Call create login success cookie
 
+                        // get the user with user manager 
                         ApplicationDbContext context = new ApplicationDbContext();
                         var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
+                        //check if user is admin, and set the user role in session
                         if (UserManager.IsInRole(userId, "admin"))
                         {
 
