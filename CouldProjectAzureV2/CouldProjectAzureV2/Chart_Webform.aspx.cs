@@ -24,8 +24,6 @@ namespace CouldProjectAzureV2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
             if (!IsPostBack)
             {
                 populateUserDropDownList();
@@ -52,12 +50,11 @@ namespace CouldProjectAzureV2
         //To insert all different measurements in the dropdownlist
         private void populateMeasurementList()
         {
-            //Splitta metadatan innan om mer metadata tex tal
             for (int i = 0; i < sensorData.Count; i++)
             {
                 if (sensorData[i].METAData != null)
                 {
-                    if (sensorData[i].METAData.Equals("Measurement START"))
+                    if (sensorData[i].METAData.Equals("Measurement START"))     //Only inserts if found a start of a measurement
                     {
                         string[] rowKeyValues = sensorData[i].RowKey.Split(';');
                         MeasurementList.Items.Add(rowKeyValues[1]);
@@ -90,6 +87,7 @@ namespace CouldProjectAzureV2
                 BatteryChart.Series[serie].ChartType = SeriesChartType.FastLine;
             }
 
+            //Loop through the enteties and add them to the correct graph
             for (int i = 0; i < sensorListParameter.Count(); i++)
             {
                 if (sensorListParameter[i].SensorLight != null && chartType.Equals("LightChart"))
@@ -112,7 +110,7 @@ namespace CouldProjectAzureV2
                     TableRow tRow = new TableRow();
                     Table1.Rows.Add(tRow);
 
-                    // Create a new cell and add it to the row.
+                    // Create a new cell and then add the cell to the row.
                     TableCell tCell = new TableCell();
                     tCell.Text = "Time " + stringSplit[1] + ", Metadata: " + sensorListParameter[i].METAData;
                     tRow.Cells.Add(tCell);
@@ -136,6 +134,7 @@ namespace CouldProjectAzureV2
             AcclerometerChart.Series[1].Color = System.Drawing.Color.Black;
             AcclerometerChart.Series[2].Color = System.Drawing.Color.CornflowerBlue;
         
+            //Loop through the enteties and add the accelerometer data to the graph
             for (int i = 0; i < sensorListParameter.Count(); i++)
             {
                 if (sensorListParameter[i].SensorAccelerometerX != null && sensorListParameter[i].SensorAccelerometerY != null && sensorListParameter[i].SensorAccelerometerZ != null)
@@ -159,21 +158,22 @@ namespace CouldProjectAzureV2
                 string[] rowKeyValues = fulleSensorDataList[i].RowKey.Split(';');
                 if (fulleSensorDataList[i].METAData != null)
                 {
-                    if (fulleSensorDataList[i].METAData.Equals("Measurement START") && rowKeyValues[1].Equals(date))
+                    if (fulleSensorDataList[i].METAData.Equals("Measurement START") && rowKeyValues[1].Equals(date))//Check if measurment started on correct timestamp
                         isStarted = true;
-                    else if (fulleSensorDataList[i].METAData.Equals("Measurement STOP") && isStarted)
+                    else if (fulleSensorDataList[i].METAData.Equals("Measurement STOP") && isStarted)//If it finds the stop of the measurement (and it has already found a measurement start)
                     {
                         sortedSensors.Add(fulleSensorDataList[i]);
                         break;
                     }
                 }
-                if (isStarted)
+                if (isStarted)  //Adds as long as we have not reached the end of the measurement
                     sortedSensors.Add(fulleSensorDataList[i]);
 
             }
             return sortedSensors;
         }
 
+        //Method for adding data to the acclerometer graph
         private void addAcceleroMeterDataToGraph(string serie)
         {
             AcclerometerChart.Series.Add(serie);
@@ -210,6 +210,7 @@ namespace CouldProjectAzureV2
             callCreateChartMethods(filterSensorListOnMeasurement(MeasurementList.SelectedValue.ToString()));
         }
 
+        //Method that calls the chart methods
         private void callCreateChartMethods(List<Entity> chartSensorEntities)
         {
             clearCharts();
@@ -220,6 +221,7 @@ namespace CouldProjectAzureV2
             createOneSerieGraph("METADATATable", chartSensorEntities);
         }
 
+        //Clear every charts
         private void clearCharts()
         {
             AcclerometerChart.Series.Clear();
@@ -230,63 +232,4 @@ namespace CouldProjectAzureV2
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-//      var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
-//     var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
-//    var result = manager.GetEmailAsync("8cc2231a-ecf5-4c95-9b62-ca6610d5c3a7");
-//     var user = manager.FindById("8cc2231a-ecf5-4c95-9b62-ca6610d5c3a7");
-//   Debug.WriteLine("Look at the result:   " + user.ToString());
-
-
-//var manager = new UserManager<MyUser>(new UserStore<MyUser>(new MyDbContext()));
-
-//            var user = new MyUser {};
-//          user.
-//        IdentityResult result = manager
-
-/*    var userSettings = new UserSensorSettings() { };
-    userSettings.userId = 34;
-    userSettings.accelerometerOnOff = 1;
-    userSettings.lightOnOff = 1;
-    userSettings.proximityOnOff = 0;
-    userSettings.samplingRate = 1000;*/
-
-//var user = new MyUser() {  };
-// user.UserSensorSettings.accelerometerOnOff = 1;
-// user.UserSensorSettings.userId = 12;
-
-// var currentUser = manager.FindById(User.Identity.GetUserId());
-// var ef = currentUser.UserSensorSettings.proximityOnOff;
-
-
-
-
-//var conf = new MyDbContext();
-// conf.MyUserInfo = user;
-// conf.SaveChanges();
-
-
-/*   IdentityResult result = manager.Create();
-
-   if (result.Succeeded)
-   {
-       signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
-
-       string role = (string)Session["selectedRole"];
-       giveRoleToUser(user, role);
-       Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie); //We cant find the users role if we do not log out and in
-       signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
-       IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-   }*/
-
 

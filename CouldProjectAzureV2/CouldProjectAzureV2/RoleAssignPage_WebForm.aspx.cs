@@ -40,6 +40,7 @@ namespace CouldProjectAzureV2.Account
                 RoleDropDownList.Items.Insert(RoleDropDownList.Items.Count, roleNames[i]);
         }
 
+        //Assign a role to a user
         private void giveRoleToUser(string roleName)
         {
             ApplicationDbContext context = new ApplicationDbContext();

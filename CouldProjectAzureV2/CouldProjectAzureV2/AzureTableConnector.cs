@@ -35,18 +35,8 @@ namespace CouldProjectAzureV2
                 Boolean onDate = false;
                 TableQuery<Entity> query = new TableQuery<Entity>();
 
-                foreach (Entity entity in table.ExecuteQuery(query))
-                {
-                      Debug.WriteLine(entity.PartitionKey);
-                      Debug.WriteLine(entity.RowKey);
-                      Debug.WriteLine(entity.SensorAccelerometerX);
-                      Debug.WriteLine(entity.SensorAccelerometerY);
-                      Debug.WriteLine(entity.SensorAccelerometerZ);
-                      Debug.WriteLine(entity.SensorLight);
-                      Debug.WriteLine(entity.SensorProximity);
-                      Debug.WriteLine("----------------------------------");
-                     
-                 
+                foreach (Entity entity in table.ExecuteQuery(query))  //Goes through the entities
+                {                                 
                     string[] values = entity.RowKey.Split(';');
                     string userNameAzure = values[0];
                     string fullDate = values[1];

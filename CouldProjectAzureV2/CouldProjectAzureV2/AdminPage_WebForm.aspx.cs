@@ -146,6 +146,7 @@ namespace CouldProjectAzureV2
         private void checkUserSettingList() { 
         }
 
+        //Method for changing button classes for the sensor buttons
         private void changeButtonAppearanceOnOff(Boolean on, Button onButton, Button offButton)
         {
             if (on)
@@ -160,6 +161,8 @@ namespace CouldProjectAzureV2
             }
 
         }
+
+        //Method for changing button classes for the sensor frequency buttons
         private void changeButtonAppereanceSensor(Button slow, Button medium, Button fast, String state)
         {
             if (state.Equals("Slow"))

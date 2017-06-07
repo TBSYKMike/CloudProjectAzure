@@ -5,6 +5,7 @@ using System.Web;
 
 namespace CouldProjectAzureV2
 {
+    //Object class for the user settings
     public class UserSettings
     {
         private String userId;
